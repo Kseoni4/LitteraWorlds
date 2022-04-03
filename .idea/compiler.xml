@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="LitteraWorlds" />
+        <module name="ClientModule" />
+        <module name="ServerModule" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ClientModule" target="17" />
+      <module name="LitteraWorlds" target="17" />
+      <module name="ServerModule" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
