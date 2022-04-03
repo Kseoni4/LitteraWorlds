@@ -4,7 +4,6 @@ import org.litteraworlds.GameLoop;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.input.PlayerInput;
 import org.litteraworlds.map.Direction;
-import org.litteraworlds.map.Place;
 import org.litteraworlds.map.Position;
 import org.litteraworlds.objects.GameObject;
 import org.litteraworlds.view.GameScreen;
@@ -16,6 +15,14 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * <h3>[CLIENT-SIDE]</h3>
+ * <h4>GameLogic</h4>
+ * Класс, содержаший статические методы для реализации логики соответствующих доступных команд (cм.класс {@link Command}).
+ * <br>Методы могут иметь перегруженные аналоги для команд с дополнительными аргументами, например:
+ * <br>{@code walkTo()} - "пойти в некоторую сторону" - имеет перегрузку {@code walkTo(String direction)}, которая принимает указание стороны света
+ * (см.перечисление {@link Direction})
+ */
 public class GameLogic {
     private GameLogic(){}
 

@@ -7,6 +7,16 @@ import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.util.Arrays;
 
+/**
+ * <h2>[CLIENT/SERVER-SIDE]</h2>
+ * <h3>MapGeneration</h3>
+ * <p>
+ *     Класс для процедурной генерации карты мира.
+ *     Карта мира имеет следующую иерархию (от крупного к мелкому):<br>
+ *     Регион (класс {@link Region}) -> Зона (класс {@link Zone}) -> Здание (класс {@link Building}) -> Комната (класс {@link Room}).
+ *     Игрок перемещается в зонах и в комнатах, а регион и здание являются в некотором роде "контейнерами" для хранения доступных локаций.
+ * </p>
+ */
 public class MapGeneration {
     private MapGeneration(){}
 

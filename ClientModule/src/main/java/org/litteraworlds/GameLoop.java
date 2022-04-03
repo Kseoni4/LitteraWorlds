@@ -36,39 +36,39 @@ public class GameLoop {
 
         GameScreen.putString(player.getAbilities().toString());
 
-        int avaliable = Creature.Abilities.class.getDeclaredFields().length;
+        int available = Creature.Abilities.class.getDeclaredFields().length;
         int points;
 
-        GameScreen.putString(TextColors.NARRATOR_COLOR,"У тебя есть "+avaliable+" очков. Почему именно столько? Ну так вышло." +
+        GameScreen.putString(TextColors.NARRATOR_COLOR,"У тебя есть "+available+" очков. Почему именно столько? Ну так вышло." +
                 " Почему ты спрашиваешь про очки, но не о том, что с тобой разговаривает кто-то?");
         GameScreen.putString(TextColors.NARRATOR_COLOR,"Итак, начнём с атаки, сколько добавишь?");
         GameScreen.putString(TextColors.HELP_MESSAGE, "Просто введи цифру");
 
-        avaliable -= points = getPoints(inputCommand(), avaliable);
+        available -= points = getPoints(inputCommand(), available);
         player.getAbilities().setAtk(player.getAbilities().getAtk() + points);
 
-        GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось "+avaliable+" очков");
+        GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось "+available+" очков");
 
-        if(avaliable > 0) {
+        if(available > 0) {
             GameScreen.putString(TextColors.NARRATOR_COLOR,"Давай на защиту накинем.");
-            avaliable -= points = getPoints(inputCommand(), avaliable);
+            available -= points = getPoints(inputCommand(), available);
             player.getAbilities().setDef(player.getAbilities().getDef() + points);
 
-            GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось "+avaliable+" очков");
+            GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось "+available+" очков");
         }
 
-        if(avaliable > 0) {
+        if(available > 0) {
             GameScreen.putString(TextColors.NARRATOR_COLOR,"Насколько ты ловкий?");
-            avaliable -= points = getPoints(inputCommand(), avaliable);
+            available -= points = getPoints(inputCommand(), available);
             player.getAbilities().setDex(player.getAbilities().getDex() + points);
 
 
-            GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось " + avaliable + " очков");
+            GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось " + available + " очков");
         }
 
-        if(avaliable > 0) {
+        if(available > 0) {
             GameScreen.putString(TextColors.NARRATOR_COLOR,"Добавим к крепости духа?");
-            avaliable -= points = getPoints(inputCommand(), avaliable);
+            available -= points = getPoints(inputCommand(), available);
             player.getAbilities().setDex(player.getAbilities().getDex() + points);
         }
 
@@ -81,14 +81,17 @@ public class GameLoop {
         inputCommand();
     }
 
-    public int getPoints(String input, int avaliable){
+    public int getPoints(String input, int available){
         try{
             while (true) {
                 int points = Integer.parseInt(input);
-                if (points <= avaliable) {
+
+                if (points <= available) {
                     return points;
-                } else if (avaliable > 0) {
-                    return 0;
+                } else if (available > 0) {
+                    GameScreen.putString(TextColors.GAME_MESSAGE, "Введено очков больше, чем доступно");
+
+                    return getPoints(inputCommand(), available);
                 } else {
                     return 0;
                 }
@@ -96,7 +99,7 @@ public class GameLoop {
         } catch (NumberFormatException e) {
             GameScreen.putString(MessageType.ERROR, "Это не число!");
             GameScreen.putString(TextColors.GAME_MESSAGE, "Попробуй ещё раз:");
-            return getPoints(inputCommand(), avaliable);
+            return getPoints(inputCommand(), available);
         }
     }
 
