@@ -12,7 +12,7 @@ public final class PlayerInput {
 
     private static char[] charBuffer;
 
-    private static final int charBufferSize = 16;
+    private static final int charBufferSize = 18;
 
     private static final int DEFAULT_POINTER = 1;
 
@@ -85,7 +85,7 @@ public final class PlayerInput {
     }
 
     private static char clearInput(char c){
-        if(Character.isLetterOrDigit(c) || Character.isWhitespace(c) || Character.isSpaceChar(c) || c == '/'){
+        if(Character.isLetterOrDigit(c) || Character.isWhitespace(c) || Character.isSpaceChar(c) || c == '/' || c == '-' || c == '_'){
             return c;
         } else {
             return ' ';

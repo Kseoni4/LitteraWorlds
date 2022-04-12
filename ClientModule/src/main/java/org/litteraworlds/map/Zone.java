@@ -27,6 +27,7 @@ public class Zone extends Place{
 
     public void putBuildingInZone(Building building){
         this.buildingsInZone.add(building);
+        building.putIntoMap(this);
     }
 
     public Building getBuilding(int buildingID){

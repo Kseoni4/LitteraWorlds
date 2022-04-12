@@ -1,10 +1,12 @@
 package org.litteraworlds;
 
+import org.litteraworlds.game.GameLogic;
 import org.litteraworlds.game.MapGeneration;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.map.Region;
 import org.litteraworlds.objects.Creature;
 import org.litteraworlds.objects.Player;
+import org.litteraworlds.view.Debug;
 import org.litteraworlds.view.colors.TextColors;
 import org.litteraworlds.view.GameScreen;
 import org.litteraworlds.view.MessageType;
@@ -18,6 +20,7 @@ public class GameLoop {
     private Region region;
 
     public static Player getPlayer(){
+        Debug.toLog("Getting player "+player);
         return player;
     }
 
@@ -109,6 +112,7 @@ public class GameLoop {
         region.putPlayerIntoRandomZone(player);
 
         GameScreen.putString(TextColors.PLAYER_COLOR, "Вы оказываетесь в регионе "+region+" в зоне "+player.getObjectPlace());
+        GameLogic.lookAround();
         GameScreen.putString(TextColors.GAME_MESSAGE,"Что будете делать дальше?");
         GameScreen.putString(TextColors.HELP_MESSAGE,"Наберите /помощь для списка команд");
 

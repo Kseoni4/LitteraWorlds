@@ -2,6 +2,7 @@ package org.litteraworlds.objects;
 
 import org.litteraworlds.map.Place;
 import org.litteraworlds.map.Position;
+import org.litteraworlds.view.Debug;
 import org.litteraworlds.view.colors.Colors;
 
 public abstract class GameObject {
@@ -14,7 +15,7 @@ public abstract class GameObject {
 
     private static int idCounter = 0;
 
-    private final String name;
+    private String name;
 
     private final String color;
 
@@ -37,7 +38,9 @@ public abstract class GameObject {
     }
 
     public void putIntoMap(Place map){
+        Debug.toLog(this + " into place "+map);
         this.objectPlace = map;
+        Debug.toLog(this + " into new position "+map.getPlacePosition());
         this.objectPosition = map.getPlacePosition();
         map.objectsInPlace.add(this);
     }
@@ -64,10 +67,15 @@ public abstract class GameObject {
     }
 
     public Place getObjectPlace() {
+        Debug.toLog(objectPlace);
         return objectPlace;
     }
 
     public Position getObjectPosition() {
         return objectPosition;
+    }
+
+    public void setName(String name){
+        this.name = name;
     }
 }

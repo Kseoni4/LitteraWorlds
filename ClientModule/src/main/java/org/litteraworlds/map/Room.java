@@ -8,15 +8,15 @@ public class Room extends Place {
 
     private int roomIndex;
 
-    private Building building;
+    private Floor floorInBuilding;
 
     private Room nextRoom;
 
     private Room backRoom = null;
 
-    public Room(String hashCode, Building linkBuilding, int roomIndex) {
+    public Room(String hashCode, Floor floorInBuilding, int roomIndex) {
         super(hashCode);
-        this.building = linkBuilding;
+        this.floorInBuilding = floorInBuilding;
         this.roomIndex = roomIndex;
     }
 

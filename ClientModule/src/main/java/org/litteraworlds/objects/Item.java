@@ -8,12 +8,17 @@ public class Item extends GameObject {
 
     protected int price;
 
-    public static final Item DEFAULT_ITEM = new Item(Rarity.COMMON, "DEFAULT ITEM");
+    protected String description;
 
     public Item(Rarity itemRarity, String name) {
         super(itemRarity.toString(), name);
         this.itemRarity = itemRarity;
         this.price = ThreadLocalRandom.current().nextInt(3,12 * itemRarity.getEmpower());
+    }
+
+    public Item(Rarity itemRarity, String name, String description){
+        this(itemRarity, name);
+        this.description = description;
     }
 
     public int getPrice() {
@@ -22,5 +27,9 @@ public class Item extends GameObject {
 
     public Rarity getItemRarity() {
         return itemRarity;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

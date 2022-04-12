@@ -1,6 +1,8 @@
 package org.litteraworlds.input;
 
 import org.litteraworlds.game.GameLogic;
+import org.litteraworlds.map.Building;
+import org.litteraworlds.objects.GameObject;
 import org.litteraworlds.view.*;
 
 import java.io.*;
@@ -57,6 +59,12 @@ public final class Command {
         switch (type){
             case 'S' -> {
                 return String.class;
+            }
+            case 'B' -> {
+                return Building.class;
+            }
+            case 'O' -> {
+                return GameObject.class;
             }
             default -> {
                 return Class.class;

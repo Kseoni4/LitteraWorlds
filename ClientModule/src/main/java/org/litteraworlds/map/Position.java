@@ -17,6 +17,7 @@ public class Position {
     public Position(int x, int y){
         this.x = x;
         this.y = y;
+        this.direction = Direction.NORTH;
     }
 
     public Position(TerminalPosition terminalPosition){
@@ -35,6 +36,7 @@ public class Position {
     public Direction getOrientation(){
         return this.direction;
     }
+
 
     @Override
     public String toString(){

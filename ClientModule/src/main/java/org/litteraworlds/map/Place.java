@@ -1,9 +1,13 @@
 package org.litteraworlds.map;
 
 import org.litteraworlds.objects.GameObject;
+import org.litteraworlds.view.Debug;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public abstract class Place {
 
@@ -23,10 +27,14 @@ public abstract class Place {
     }
 
     public GameObject findObjectInPlace(String name){
+        Debug.toLog(Arrays.toString(objectsInPlace.toArray()));
         Optional<GameObject> optionalGameObject = objectsInPlace.stream()
                 .filter(gameObject -> gameObject.getName().equals(name))
                 .findFirst();
-        return optionalGameObject.orElseThrow();
+        return optionalGameObject.or(()-> {
+            Debug.toLog("Object "+name+" is not found");
+            return Optional.empty();
+        }).orElse(null);
     }
 
     public GameObject findObjectInPlace(String name, int id){
@@ -41,6 +49,10 @@ public abstract class Place {
                 .filter(gameObject -> gameObject.equals(object))
                 .findFirst();
         return optionalGameObject.orElseThrow();
+    }
+
+    public List<GameObject> findObjectsInPlace(GameObject object){
+        return objectsInPlace.stream().filter(gameObject -> gameObject.getName().equals(object.getName())).collect(Collectors.toList());
     }
 
     protected Place(String hashCode, Position placePosition){

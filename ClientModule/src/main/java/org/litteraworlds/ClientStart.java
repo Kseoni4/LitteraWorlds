@@ -1,14 +1,18 @@
 package org.litteraworlds;
 
 import org.litteraworlds.input.Command;
+import org.litteraworlds.net.SecurityConfig;
 import org.litteraworlds.view.*;
 import org.litteraworlds.view.colors.TextColors;
+import org.litteraworlds.workers.ConnectionWorker;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.DigestException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.litteraworlds.input.PlayerInput.inputCommand;
 
@@ -32,7 +36,10 @@ import static org.litteraworlds.input.PlayerInput.inputCommand;
  */
 final class ClientStart {
 
+    static ExecutorService workers = Executors.newCachedThreadPool();
+
     public static void main(String[] args) throws IOException {
+        //new SecurityConfig().testConfig();
         GameScreen.init();
         GameScreen.putString(MessageType.SYSTEM, "Запуск игрового клиента");
         GameScreen.putString(MessageType.SYSTEM, "Оконная форма инциализирована");
@@ -40,6 +47,8 @@ final class ClientStart {
         GameScreen.putString(MessageType.SYSTEM, "Текстовые данные загружены");
         Command.init();
         GameScreen.putString(MessageType.SYSTEM, "Игровые команды инициализированы");
+
+        workers.execute(new ConnectionWorker());
 
         GameScreen.putString(TextColors.HELP_MESSAGE,"Для начала игры, введите команду /старт");
         while (true) {

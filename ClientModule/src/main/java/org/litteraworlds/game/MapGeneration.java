@@ -3,9 +3,12 @@ package org.litteraworlds.game;
 import org.litteraworlds.GameLoop;
 import org.litteraworlds.map.*;
 
+import java.beans.Encoder;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
+import java.text.Normalizer;
 import java.util.Arrays;
+import java.util.Base64;
 
 /**
  * <h2>[CLIENT/SERVER-SIDE]</h2>
@@ -26,15 +29,17 @@ public class MapGeneration {
 
     public static Region generateNewRegion() {
         try {
-            MessageDigest hashGen = MessageDigest.getInstance("SHA-256");
+            MessageDigest hashGen = MessageDigest.getInstance("MD5");
 
-            String hash = new String(hashGen.digest(GameLoop.getPlayer().toString().getBytes(StandardCharsets.UTF_8)));
+            byte[] hash = hashGen.digest(GameLoop.getPlayer().toString().getBytes(StandardCharsets.UTF_8));
 
-            System.out.println("Seed: " + hash);
+            String hashString = Base64.getEncoder().encodeToString(hash).toUpperCase();
 
-            random.setSeed(hash.getBytes());
+            System.out.println("Seed: " + hashString);
 
-            return regionBuilder(hash.getBytes());
+            random.setSeed(hash);
+
+            return regionBuilder(hash);
         } catch (NoSuchAlgorithmException e){
             e.printStackTrace();
         }
@@ -42,12 +47,12 @@ public class MapGeneration {
     }
 
     private static Region regionBuilder(byte[] seed){
-        Region rgn = new Region("First", new String(seed));
+        Region rgn = new Region("First", Base64.getEncoder().encodeToString(seed));
         for(int i = 0; i < 8; i++) {
             String name = zoneNames[random.nextInt(zoneNames.length)];
             rgn.addZone(new Zone(
                     name,
-                    new String(seed).concat(new String(random.generateSeed(12))),
+                    Base64.getEncoder().encodeToString(seed).concat("|"+Base64.getEncoder().encodeToString(random.generateSeed(12))),
                     new Position(Direction.values()[random.nextInt(Direction.values().length)]),
                     random.nextInt(10, 24))
             );
