@@ -1,8 +1,6 @@
-package org.litteraworlds.map;
-import org.litteraworlds.map.Direction;
-import org.litteraworlds.net.Requests;
-import org.litteraworlds.objects.GameObject;
-import org.litteraworlds.view.Debug;
+package org.litteraworlds.mapgenerator.map;
+
+import org.litteraworlds.security.HashGen;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public abstract class Place implements Serializable {
@@ -38,9 +35,9 @@ public abstract class Place implements Serializable {
         this.objectsInPlace = new ArrayList<>();
         String dataToHash = this.placeName+this.originFromPivot+hash;
 
-        Debug.toLog("Data to hash: "+dataToHash);
+        System.out.println("Data to hash: "+dataToHash);
 
-        placeHashID = convertHashToString(Requests.getHash());
+        placeHashID = convertHashToString(HashGen.getHash(dataToHash));
     }
 
     private static String convertHashToString(byte[] hash){
@@ -53,12 +50,12 @@ public abstract class Place implements Serializable {
 
 
     public GameObject findObjectInPlace(String name){
-        Debug.toLog(Arrays.toString(objectsInPlace.toArray()));
+        System.out.println(Arrays.toString(objectsInPlace.toArray()));
         Optional<GameObject> optionalGameObject = objectsInPlace.stream()
                 .filter(gameObject -> gameObject.getName().equals(name))
                 .findFirst();
         return optionalGameObject.or(()-> {
-            Debug.toLog("Object "+name+" is not found");
+            System.out.println("Object "+name+" is not found");
             return Optional.empty();
         }).orElse(null);
     }

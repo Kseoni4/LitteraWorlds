@@ -1,10 +1,8 @@
-package org.litteraworlds.map;
+package org.litteraworlds.mapgenerator.map;
 
 import com.googlecode.lanterna.TerminalPosition;
 
-import java.io.Serializable;
-
-public class Position implements Serializable {
+public class Position {
 
     private Direction direction;
 

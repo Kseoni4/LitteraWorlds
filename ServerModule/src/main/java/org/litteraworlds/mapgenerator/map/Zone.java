@@ -1,27 +1,17 @@
-package org.litteraworlds.map;
-
-import org.litteraworlds.objects.GameObject;
+package org.litteraworlds.mapgenerator.map;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class Zone extends Place{
+public class Zone extends Place {
 
     private ArrayList<Building> buildingsInZone;
 
     private LinkedList<Zone> connectedZones;
 
     private int zoneSquare;
-
-/*
-    public Zone(String name, String hashID, Position zonePositionInRegion) {
-        super(name, hashID, zonePositionInRegion);
-        this.zoneSquare = zoneSquare;
-        this.connectedZones = new LinkedList<>();
-        this.buildingsInZone = new ArrayList<>();
-    }*/
 
     public Zone(Direction originFromRegionCenter, String hashId){
         this("unknownZone", originFromRegionCenter, hashId);

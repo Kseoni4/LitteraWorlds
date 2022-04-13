@@ -85,7 +85,7 @@ public class GameLogic {
         for (Direction direction : Direction.values()) {
             Debug.toLog("LOOK_AROUND|Direction:"+direction);
             for (GameObject go : gameObjects) {
-                if (go.getObjectPosition().getOrientation().equals(direction) && !go.equals(GameLoop.getPlayer())) {
+                if (go.getObjectOrigin().equals(direction) && !go.equals(GameLoop.getPlayer())) {
                     Debug.toLog("LOOK_AROUND|Object in direction:"+direction+" -> "+go);
                     GameScreen.putString("В стороне "+direction+" вы видете "+go);
                 }

@@ -4,6 +4,7 @@ import org.litteraworlds.services.PlayerInstance;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.StandardSocketOptions;
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
@@ -35,6 +36,19 @@ public class ServerListener implements Runnable {
 
     @Override
     public void run() {
+        try {
+            Socket client;
+            while ((client = serverSocket.accept()) != null) {
+                PlayerInstance playerInstance = new PlayerInstance(client);
 
+                log.info("Player with net-info: "+client+" has connected");
+
+                instances.add(playerInstance);
+
+                playerInstancesWorkers.execute(playerInstance);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }

@@ -1,8 +1,4 @@
-package org.litteraworlds.map;
-
-import org.litteraworlds.objects.GameObject;
-
-import java.util.ArrayList;
+package org.litteraworlds.mapgenerator.map;
 
 public class Room extends Place {
 
@@ -30,5 +26,10 @@ public class Room extends Place {
 
     public void setBackRoom(Room backRoom) {
         this.backRoom = backRoom;
+    }
+
+    @Override
+    public String toString(){
+        return "Комната "+roomIndex+" этаж "+floorInBuilding.getFloorNumber();
     }
 }

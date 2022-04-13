@@ -1,12 +1,9 @@
-package org.litteraworlds.map;
+package org.litteraworlds.mapgenerator.map;
 
-import org.litteraworlds.view.Debug;
-
-import java.security.SecureRandom;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Floor extends Place{
+public class Floor extends Place {
 
     private final int floorNumber;
 
@@ -37,7 +34,7 @@ public class Floor extends Place{
     }
 
     public List<Room> getRoomsOnFloor(){
-        Debug.toLog(rooms.toString());
+        System.out.println(rooms.toString());
         return rooms.stream().toList();
     }
 
@@ -46,7 +43,7 @@ public class Floor extends Place{
         this.floorNumber = floorNumber;
         this.linkedBuilding = linkedBuilding;
         generateRooms(2);
-        Debug.toLog("The floor "+floorNumber+" with hash "+this.getPlaceHashID()+" in building "+linkedBuilding + " and with "
+        System.out.println("The floor "+floorNumber+" with hash "+this.getPlaceHashID()+" in building "+linkedBuilding + " and with "
                 +this.rooms.size()+ " rooms, has created");
     }
 

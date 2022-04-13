@@ -4,12 +4,18 @@ import org.litteraworlds.game.GameLogic;
 import org.litteraworlds.game.MapGeneration;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.map.Region;
+import org.litteraworlds.net.Requests;
 import org.litteraworlds.objects.Creature;
 import org.litteraworlds.objects.Player;
 import org.litteraworlds.view.Debug;
 import org.litteraworlds.view.colors.TextColors;
 import org.litteraworlds.view.GameScreen;
 import org.litteraworlds.view.MessageType;
+import org.litteraworlds.workers.ConnectionWorker;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
 
 import static org.litteraworlds.input.PlayerInput.inputCommand;
 
@@ -17,7 +23,13 @@ public class GameLoop {
 
     private static Player player;
 
+    private static ConnectionWorker connectionWorker;
+
     private Region region;
+
+    public GameLoop(ConnectionWorker connectionWorker){
+        this.connectionWorker = connectionWorker;
+    }
 
     public static Player getPlayer(){
         Debug.toLog("Getting player "+player);
@@ -37,9 +49,9 @@ public class GameLoop {
 
         player = new Player(name);
 
-        GameScreen.putString(player.getAbilities().toString());
+        GameScreen.putString(player.getPlayerAbilities().toString());
 
-        int available = Creature.Abilities.class.getDeclaredFields().length;
+        int available = Player.Abilities.class.getDeclaredFields().length;
         int points;
 
         GameScreen.putString(TextColors.NARRATOR_COLOR,"У тебя есть "+available+" очков. Почему именно столько? Ну так вышло." +
@@ -48,14 +60,14 @@ public class GameLoop {
         GameScreen.putString(TextColors.HELP_MESSAGE, "Просто введи цифру");
 
         available -= points = getPoints(inputCommand(), available);
-        player.getAbilities().setAtk(player.getAbilities().getAtk() + points);
+        player.getPlayerAbilities().setAtk(player.getPlayerAbilities().getAtk() + points);
 
         GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось "+available+" очков");
 
         if(available > 0) {
             GameScreen.putString(TextColors.NARRATOR_COLOR,"Давай на защиту накинем.");
             available -= points = getPoints(inputCommand(), available);
-            player.getAbilities().setDef(player.getAbilities().getDef() + points);
+            player.getPlayerAbilities().setDef(player.getPlayerAbilities().getDef() + points);
 
             GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось "+available+" очков");
         }
@@ -63,7 +75,7 @@ public class GameLoop {
         if(available > 0) {
             GameScreen.putString(TextColors.NARRATOR_COLOR,"Насколько ты ловкий?");
             available -= points = getPoints(inputCommand(), available);
-            player.getAbilities().setDex(player.getAbilities().getDex() + points);
+            player.getPlayerAbilities().setDex(player.getPlayerAbilities().getDex() + points);
 
 
             GameScreen.putString(TextColors.HELP_MESSAGE, "Осталось " + available + " очков");
@@ -72,7 +84,7 @@ public class GameLoop {
         if(available > 0) {
             GameScreen.putString(TextColors.NARRATOR_COLOR,"Добавим к крепости духа?");
             available -= points = getPoints(inputCommand(), available);
-            player.getAbilities().setDex(player.getAbilities().getDex() + points);
+            player.getPlayerAbilities().setDex(player.getPlayerAbilities().getDex() + points);
         }
 
         GameScreen.putString(TextColors.HELP_MESSAGE, "Очков не осталось");
@@ -106,10 +118,51 @@ public class GameLoop {
         }
     }
 
-    public void start() {
+    private boolean sendPlayerDataToServer(){
+        if(Requests.registerPlayer(player)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void start() throws IOException, NoSuchAlgorithmException {
         GameScreen.putString(MessageType.SYSTEM, "Запуск игрового цикла");
-        region = MapGeneration.generateNewRegion();
+
+        connectionWorker.sendToServer(player.toString().getBytes(StandardCharsets.UTF_8));
+
+        GameScreen.putString(MessageType.SYSTEM,"Ожидание хэша для генерации");
+
+        Requests.setConnectionWorker(connectionWorker);
+
+        byte[] hash = Requests.getHash();
+
+        String h = "";
+        for(byte b : hash){
+            h = h.concat(String.format("%02x",b));
+        }
+        //h = h.substring(0, h.length()/2).concat("...");
+
+        Debug.toLog("h length "+h.length());
+
+        Debug.toLog("hash:"+h);
+
+        GameScreen.putString(MessageType.INFO,h);
+
+        region = MapGeneration.generateNewRegion(hash);
         region.putPlayerIntoRandomZone(player);
+
+        GameScreen.putString(MessageType.SYSTEM,"Регистрация игрока на сервере");
+        GameScreen.putString(MessageType.SYSTEM,"Отправка данных...");
+
+        if(sendPlayerDataToServer()){
+            GameScreen.putString(MessageType.SYSTEM,"Регистрация прошла успешно!");
+        } else {
+            GameScreen.putString(MessageType.ERROR,"Проблемы с регистрацией");
+            GameScreen.putString(MessageType.INFO,"Нажмите любую кнопку для выхода");
+            inputCommand();
+            return;
+        }
 
         GameScreen.putString(TextColors.PLAYER_COLOR, "Вы оказываетесь в регионе "+region+" в зоне "+player.getObjectPlace());
         GameLogic.lookAround();

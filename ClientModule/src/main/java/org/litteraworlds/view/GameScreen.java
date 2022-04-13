@@ -109,9 +109,9 @@ public class GameScreen {
     private static void putIntoScreenAndRefresh(String color, String s){
         if(isTextLengthFit(s)) {
             //System.out.println(getTrimString(s));
-            Debug.toLog("BEFORE INSERT LINE|yPointer = "+yPointer+"|LINE =" + s);
+            //Debug.toLog("BEFORE INSERT LINE|yPointer = "+yPointer+"|LINE =" + s);
             screenText.putCSIStyledString(0, yPointer++, color+s);
-            Debug.toLog("AFTER INSERT LINE|yPointer = "+yPointer);
+            //Debug.toLog("AFTER INSERT LINE|yPointer = "+yPointer);
         } else {
             putIntoScreenAndRefresh(color,getSplitString(color, s).toString());
             return;
@@ -192,16 +192,16 @@ public class GameScreen {
         try {
             screenText.clearModifiers();
             if(yPointer > screen.getTerminalSize().getRows()-1) {
-                Debug.toLog("Screen rows: "+screen.getTerminalSize().getRows());
-                Debug.toLog("yPointer: "+yPointer);
+                //Debug.toLog("Screen rows: "+screen.getTerminalSize().getRows());
+                //Debug.toLog("yPointer: "+yPointer);
 
                 int scrollDistance = yPointer/2;
 
-                Debug.toLog("scrollDistance: "+scrollDistance);
+                //Debug.toLog("scrollDistance: "+scrollDistance);
 
                 int topLine = 0;
 
-                Debug.toLog("scroll parameters: "+topLine+"; "+yPointer+"; "+scrollDistance);
+                //Debug.toLog("scroll parameters: "+topLine+"; "+yPointer+"; "+scrollDistance);
 
                 screen.scrollLines(topLine,  yPointer, scrollDistance);
 

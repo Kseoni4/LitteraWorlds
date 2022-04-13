@@ -1,18 +1,10 @@
-package org.litteraworlds.objects;
+package org.litteraworlds.mapgenerator.map;
 
-import org.litteraworlds.map.Direction;
-import org.litteraworlds.map.Place;
-import org.litteraworlds.map.Position;
-import org.litteraworlds.view.Debug;
-import org.litteraworlds.view.colors.Colors;
-
-import java.io.Serializable;
-
-public abstract class GameObject implements Serializable {
+public abstract class GameObject {
 
     private static final String DEFAULT_NAME = "unnamed_object";
 
-    private static final String DEFAULT_COLOR = Colors.GREY;
+    //private static final String DEFAULT_COLOR = Colors.GREY;
 
     private final int id;
 
@@ -35,15 +27,15 @@ public abstract class GameObject implements Serializable {
     }
 
     public GameObject(String name){
-        this(DEFAULT_COLOR, name);
+        this("", name);
     }
 
     public GameObject(){
-        this(DEFAULT_COLOR, DEFAULT_NAME);
+        this("", DEFAULT_NAME);
     }
 
     public void putIntoMap(Place map){
-        Debug.toLog(this + " into place "+map);
+        //Debug.toLog(this + " into place "+map);
         this.objectPlace = map;
         this.objectOrigin = map.getOriginFromPivot();
         map.objectsInPlace.add(this);
@@ -55,7 +47,7 @@ public abstract class GameObject implements Serializable {
 
     @Override
     public String toString(){
-        return name+Colors.R;
+        return name;
     }
 
     public int getID() {
@@ -71,7 +63,7 @@ public abstract class GameObject implements Serializable {
     }
 
     public Place getObjectPlace() {
-        Debug.toLog(objectPlace);
+        //Debug.toLog(objectPlace);
         return objectPlace;
     }
 

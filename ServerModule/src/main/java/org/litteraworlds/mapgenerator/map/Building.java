@@ -1,7 +1,4 @@
-package org.litteraworlds.map;
-
-import org.litteraworlds.objects.GameObject;
-import org.litteraworlds.view.Debug;
+package org.litteraworlds.mapgenerator.map;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -23,15 +20,15 @@ public class Building extends GameObject {
     }
 
     private void generateFloors(int count) {
-        Debug.toLog(this+" generate floors");
+        System.out.println(this+" generate floors");
         for(int i = 0; i < count; i++){
-            Debug.toLog("Add floor "+i);
+            System.out.println("Add floor "+i);
             floors.add(i, new Floor(linkedZone.getPlaceHashID().concat("|"+buildingID),this, i));
         }
     }
 
     public Floor getFirstFloor(){
-        Debug.toLog(floors.toString());
+        System.out.println(floors.toString());
         return floors.getFirst();
     }
 

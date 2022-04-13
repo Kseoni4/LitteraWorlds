@@ -3,7 +3,7 @@ package org.litteraworlds.security;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -24,7 +24,7 @@ public class HashGen {
         return sb.toString();
     }
 
-    public static String getHash(String data){
+    public static byte[] getHash(String data){
         if(data.equals("")) {
             data = new Random().ints().mapToObj(Character::toString).collect(Collectors.joining());
         }
@@ -33,16 +33,25 @@ public class HashGen {
 
             byte[] rawHash = hashGen.digest(data.getBytes(StandardCharsets.UTF_8));
 
-            String encodedHash = encodeToString(rawHash);
+            String encodedHash = "";
 
-            Logger.getGlobal().info("Generate new hash: "+encodedHash);
+            for(byte b : rawHash){
+                encodedHash = encodedHash.concat(String.format("%02x",b));
+            }
 
-            return encodedHash;
+            System.out.println("Generate new hash: "+encodedHash);
+
+            //Logger.getGlobal().info("Generate new hash: "+encodedHash);
+
+            //Logger.getGlobal().info("Hash byte array:" + Arrays.toString(rawHash));
+            //Logger.getGlobal().info("Encoded byte array:" + Arrays.toString(encodedHash.getBytes()));
+
+            return rawHash;
 
         } catch (NoSuchAlgorithmException e){
             e.printStackTrace();
-            Logger.getGlobal().info("Hash algorithm is not found, return input data");
-            return data;
+            //Logger.getGlobal().info("Hash algorithm is not found, return input data");
+            return data.getBytes();
         }
     }
 }
