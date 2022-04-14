@@ -1,20 +1,7 @@
 package org.litteraworlds;
 
 import org.litteraworlds.input.Command;
-import org.litteraworlds.net.SecurityConfig;
 import org.litteraworlds.view.*;
-import org.litteraworlds.view.colors.TextColors;
-import org.litteraworlds.workers.ConnectionWorker;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.DigestException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import static org.litteraworlds.input.PlayerInput.inputCommand;
 
 
 /**
