@@ -8,11 +8,11 @@ import java.util.List;
  * <h3>Player Data Transfer Object</h3>
  * Контейнер для передачи данных игрока между клиентом и сервером<br>
  * Содержит все свойства персонажа<br>
- * SerialVersionUID = {@value #SerialVersionUID} - версия контейнера
+ * SerialVersionUID = {@value #serialVersionUID} - версия контейнера
  */
 public class PlayerDTO implements Serializable {
 
-    private static final long SerialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private String playerName;
 
