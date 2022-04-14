@@ -1,0 +1,19 @@
+
+l
+java:S1450"VRemove the "command" field and declare it as a local variable in the relevant methods.(ÄÃ™
+P
+java:S1118":Add a private constructor to hide the implicit public one.(‹ÒÜ°
+2
+java:S6205O"Remove this redundant block.(ö€ï»
+2
+java:S6205R"Remove this redundant block.(¶ÇÒ
+2
+java:S6205U"Remove this redundant block.(£óß²
+2
+java:S6205X"Remove this redundant block.(üØô
+,
+java:S1700"Rename field "command"(ÄÃ™
+_
+java:S2095%"IUse try-with-resources or close this "InputStream" in a "finally" clause.(¨ö—Ğ
+g
+java:S2095'"QUse try-with-resources or close this "BufferedInputStream" in a "finally" clause.(÷Ñ‰â

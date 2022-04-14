@@ -5,7 +5,6 @@ import org.litteraworlds.game.MapGeneration;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.map.Region;
 import org.litteraworlds.net.Requests;
-import org.litteraworlds.objects.Creature;
 import org.litteraworlds.objects.Player;
 import org.litteraworlds.view.Debug;
 import org.litteraworlds.view.colors.TextColors;
@@ -19,6 +18,12 @@ import java.security.NoSuchAlgorithmException;
 
 import static org.litteraworlds.input.PlayerInput.inputCommand;
 
+/**
+ * <h2>[CLIENT-SIDE]</h2>
+ * <h3>GameLoop</h3>
+ * Класс, описывающий поведение игрового цикла<br>
+ * Содержит функции для создания игрока и его регистрации на сервере.
+ */
 public class GameLoop {
 
     private static Player player;
@@ -41,6 +46,8 @@ public class GameLoop {
         GameScreen.putString(TextColors.GAME_MESSAGE,"Представься же:");
 
         String name = inputCommand();
+
+        //TODO проверка имени пользователя на присутствие в базе данных
 
         GameScreen.putString(TextColors.PLAYER_COLOR, "Твоё имя - "+name);
 
@@ -157,15 +164,20 @@ public class GameLoop {
 
         if(sendPlayerDataToServer()){
             GameScreen.putString(MessageType.SYSTEM,"Регистрация прошла успешно!");
+
+            gameStart();
         } else {
             GameScreen.putString(MessageType.ERROR,"Проблемы с регистрацией");
             GameScreen.putString(MessageType.INFO,"Нажмите любую кнопку для выхода");
             inputCommand();
-            return;
         }
+    }
 
+    private void gameStart(){
         GameScreen.putString(TextColors.PLAYER_COLOR, "Вы оказываетесь в регионе "+region+" в зоне "+player.getObjectPlace());
+
         GameLogic.lookAround();
+
         GameScreen.putString(TextColors.GAME_MESSAGE,"Что будете делать дальше?");
         GameScreen.putString(TextColors.HELP_MESSAGE,"Наберите /помощь для списка команд");
 
@@ -176,5 +188,4 @@ public class GameLoop {
             }
         }
     }
-
 }

@@ -1,0 +1,14 @@
+
+p
+java:S1450"URemove the "random" field and declare it as a local variable in the relevant methods.(âÂ¸µıÿÿÿÿ
+S	java:S106="9Replace this use of System.out or System.err by a logger.(¶óî›ÿÿÿÿÿ
+N	java:S106>"9Replace this use of System.out or System.err by a logger.(Ò¹ÃÕ
+N	java:S106?"9Replace this use of System.out or System.err by a logger.(˜êš
+N	java:S106@"9Replace this use of System.out or System.err by a logger.(§ôã¦
+N	java:S106A"9Replace this use of System.out or System.err by a logger.(ÂÑë…
+S	java:S106C"9Replace this use of System.out or System.err by a logger.(¸›üæıÿÿÿÿ
+M	java:S106E"9Replace this use of System.out or System.err by a logger.(‘èÔ~
+N	java:S106G"9Replace this use of System.out or System.err by a logger.(øÜùê
+U	java:S106K"9Replace this use of System.out or System.err by a logger.(‡‹¿Æ8ï°÷–‚0
+w
+java:S2629'"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(òÁåøÿÿÿÿÿ

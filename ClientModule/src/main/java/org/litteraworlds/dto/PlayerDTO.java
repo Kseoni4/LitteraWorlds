@@ -7,6 +7,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h2>[CLIENT\SERVER-SIDE]</h2>
+ * <h3>Player Data Transfer Object</h3>
+ * Контейнер для передачи данных игрока между клиентом и сервером<br>
+ * Содержит все свойства персонажа<br>
+ * SerialVersionUID = {@value #SerialVersionUID} - версия контейнера
+ */
 public class PlayerDTO implements Serializable {
 
     private static final long SerialVersionUID = 1L;

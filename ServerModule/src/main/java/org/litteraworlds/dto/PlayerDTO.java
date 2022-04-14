@@ -3,6 +3,13 @@ package org.litteraworlds.dto;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * <h2>[CLIENT\SERVER-SIDE]</h2>
+ * <h3>Player Data Transfer Object</h3>
+ * Контейнер для передачи данных игрока между клиентом и сервером<br>
+ * Содержит все свойства персонажа<br>
+ * SerialVersionUID = {@value #SerialVersionUID} - версия контейнера
+ */
 public class PlayerDTO implements Serializable {
 
     private static final long SerialVersionUID = 1L;
@@ -20,19 +27,6 @@ public class PlayerDTO implements Serializable {
     private int level;
 
     private String playerPlaceHashID;
-
-    /*public PlayerDTO(Player player){
-        this.playerName = player.getName();
-        this.tokenID = player.getTokenID();
-        this.inventory = player.getInventory();
-        this.hp = player.getHp();
-        this.level = player.getLevel();
-        this.playerPlaceHashID = player.getObjectPlace().getPlaceHashID();
-        abilitiesNumbers.add(player.getPlayerAbilities().getAtk());
-        abilitiesNumbers.add(player.getPlayerAbilities().getDef());
-        abilitiesNumbers.add(player.getPlayerAbilities().getDex());
-        abilitiesNumbers.add(player.getPlayerAbilities().getStg());
-    }*/
 
     public int getHp() {
         return hp;

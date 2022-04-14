@@ -1,0 +1,19 @@
+
+q
+java:S1450"VRemove the "hashGen" field and declare it as a local variable in the relevant methods.(Œ„¡–ÿÿÿÿÿ
+C
+java:S4425"(Use String.format( "%02X", ...) instead.(Ğâ·½ûÿÿÿÿ
+9
+java:S2119"Save and re-use this "Random".(Ò½–“úÿÿÿÿ
+U	java:S106*"9Replace this use of System.out or System.err by a logger.(‰‘Ş¡8õá–‚0
+]	java:S125,"<This block of commented-out lines of code should be removed.(Ù™¤’ûÿÿÿÿ8²ëİ–‚0
+X	java:S125."<This block of commented-out lines of code should be removed.( ‹±À8²ëİ–‚0
+]	java:S1255"<This block of commented-out lines of code should be removed.(µ€‡òÿÿÿÿÿ8Ôîß–‚0
+O
+java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ8³ëİ–‚0
+R
+java:S1128"5Remove this unused import 'java.util.logging.Logger'.(ƒ¥óš8Ôîß–‚0
+I
+java:S1144"3Remove this unused private "encodeToString" method.(ùÃÇû
+1
+java:S1700"Rename field "hashGen"(Œ„¡–ÿÿÿÿÿ

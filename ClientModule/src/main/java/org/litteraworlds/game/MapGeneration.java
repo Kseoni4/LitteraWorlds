@@ -13,7 +13,7 @@ import java.util.Base64;
 import java.util.Random;
 
 /**
- * <h2>[CLIENT/SERVER-SIDE]</h2>
+ * <h2>[CLIENT-SIDE]</h2>
  * <h3>MapGeneration</h3>
  * <p>
  *     Класс для процедурной генерации карты мира.

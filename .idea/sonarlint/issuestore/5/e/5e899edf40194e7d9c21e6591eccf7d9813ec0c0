@@ -1,0 +1,7 @@
+
+t	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(¿£åÈøÿÿÿÿ
+t
+java:S1450"YRemove the "charBuffer" field and declare it as a local variable in the relevant methods.(ÌÚƒÌıÿÿÿÿ
+N	java:S106!"9Replace this use of System.out or System.err by a logger.(Çò
+M
+java:S1068"2Remove this unused "charBufferSize" private field.(¿£åÈøÿÿÿÿ

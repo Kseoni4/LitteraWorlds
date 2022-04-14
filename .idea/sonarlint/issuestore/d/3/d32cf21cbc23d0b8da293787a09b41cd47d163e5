@@ -1,0 +1,9 @@
+
+m
+java:S1450"WRemove the "backRoom" field and declare it as a local variable in the relevant methods.(ЄЭжЌ
+r
+java:S1450	"WRemove the "nextRoom" field and declare it as a local variable in the relevant methods.(­ыбХяяяяя
+G
+java:S1068	",Remove this unused "nextRoom" private field.(­ыбХяяяяя
+B
+java:S1068",Remove this unused "backRoom" private field.(ЄЭжЌ
