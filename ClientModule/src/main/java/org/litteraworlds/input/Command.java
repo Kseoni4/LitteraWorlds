@@ -11,6 +11,16 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <h2>[CLIENT-SIDE]</h2>
+ * <h3>Command</h3>
+ * <p>
+ *     Класс, хранящий все игровые команды.<br>
+ *     При запуске, открывается файл commandlist.ctl, в котором хранится <br>
+ *     словарь команд в формате: "команда на русском, название метода". При помощи методов рефлексии
+ *     команды заполняются во внутренний словарь {@linkplain  #commands}.
+ * </p>
+ */
 public final class Command {
     private static String leftOperand;
     private static String rightOperand;
@@ -18,6 +28,9 @@ public final class Command {
 
     private static HashMap<String, Method> commands;
 
+    /**
+     * Инициализация словаря команд
+     */
     public static void init(){
         commands = new HashMap<>();
         try {
@@ -55,6 +68,12 @@ public final class Command {
         }
     }
 
+    /**
+     * Принимает литерал, обозначающий тип аргумента, передаваемый при вводе команды
+     * Возвращает тип данных, соответствующий аргументу.
+     * @param type литерал аргумента, обозначающего тип данных
+     * @return тип данных в формате class
+     */
     private static Class<?> getClassFromType(char type){
         switch (type){
             case 'S' -> {
@@ -76,6 +95,10 @@ public final class Command {
         return commands;
     }
 
+    /**
+     * Парсинг входящей строки с командой
+     * @param buffer входящая строка
+     */
     public static void parse(String buffer) {
         String[] commandLine = buffer.split(" ");
 
@@ -94,6 +117,11 @@ public final class Command {
         execute(command, rightOperand, leftOperand);
     }
 
+    /**
+     * Выполняет программы
+     * @param command название команды
+     * @param operands массив операндов (аргументов)
+     */
     private static void execute(String command, String... operands) {
         try {
             switch (getNumberOperands(operands)){
