@@ -51,7 +51,11 @@ public class GameInstance {
             WorldGenerator.generateWorld(Requests.getHash());
             GameScreen.putString(MessageType.SYSTEM, "Игровой мир сгенерирован");
         } else {
-            GameScreen.putString(MessageType.SYSTEM, "Игровой мир загружен");
+            if(WorldGenerator.loadWorldFromFile()) {
+                GameScreen.putString(MessageType.SYSTEM, "Игровой мир загружен");
+            } else {
+                GameScreen.putString(MessageType.ERROR, "Произошла ошибка при загрузке игрового мира!");
+            }
         }
     }
 

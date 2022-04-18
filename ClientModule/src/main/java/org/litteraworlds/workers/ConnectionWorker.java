@@ -28,15 +28,16 @@ public class ConnectionWorker implements Runnable {
     public void sendToServer(String stringRequest){
         this.sendToServer(stringRequest.getBytes(StandardCharsets.UTF_8));
     }
+
     public void sendToServer(byte[] outcomingData){
         try{
             BufferedOutputStream bOut = new BufferedOutputStream(out);
             String s = new String(outcomingData);
 
-            s = s.concat("\n");
+            //s = s.concat("\n");
 
             Debug.toLog("Send to server: "+s);
-            bOut.write(s.getBytes(StandardCharsets.UTF_8));
+            bOut.write(outcomingData);
             bOut.flush();
             Debug.toLog("Flush out...");
         } catch (IOException e) {

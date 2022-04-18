@@ -15,11 +15,10 @@ import java.util.logging.Logger;
  * <h2>[SERVER-SIDE]</h2>
  * <h3>PlayerInstance</h3>
  * Экземпляр сессии пользователя.
- * <br>Асинхронно обрабатывает запросы, приходящие из соответствующего клиентского сокета
- * Запросы перенаправляются при помощи метода {@linkplain  #requestMapping(String, String)},
- * принимающего префикс запроса и входные данные
+ * Содержит методы, которые выполняют различные запросы от клиента. Методы аннотируются интерфейсом {@link Mapping} и вызываются через рефлексию в классе-обработчике
+ * {@link PlayerInstanceHandler}.
  */
-public class PlayerInstance implements Runnable {
+public class PlayerInstance {
 
     public static final String WAIT_RESPONSE = "WAIT_FOR_DTO";
 
@@ -33,6 +32,18 @@ public class PlayerInstance implements Runnable {
 
     private String clIP;
 
+    public Socket getClient() {
+        return client;
+    }
+
+    public InputStream getIn() {
+        return in;
+    }
+
+    public OutputStream getOut() {
+        return out;
+    }
+
     public PlayerInstance(Socket client) throws IOException {
         this.client = client;
         this.in = client.getInputStream();
@@ -40,98 +51,28 @@ public class PlayerInstance implements Runnable {
         logClient.info("Client " + client + " has connected");
     }
 
-    @Override
-    public void run() {
-        logClient.info("Start player instance");
-        logClient.info("Player info " + client);
-        try {
-            BufferedInputStream bIn = new BufferedInputStream(in);
+    private byte[] trimBuffer(byte[] buffer){
 
-            clIP = client.getInetAddress().getHostAddress() + ":" + client.getPort();
+        int size = 0;
 
-            logClient.info(clIP + "|>Do work...");
-
-            while (!client.isClosed()) {
-                logClient.info(clIP + "|>Wait for read");
-
-                byte[] inputBuffer = new byte[1024];
-
-                if ((bIn.read(inputBuffer)) > 0) {
-                    String request = new String(inputBuffer).trim();
-
-                    logClient.info(clIP+"|> get request: "+request);
-
-                    String requestData = "";
-
-                    if(request.length() > 4){
-                        requestData = request.substring(4);
-                    }
-                    requestMapping(request.substring(0, 4), requestData);
-                } else {
-                    logClient.info(clIP+"|> get nothing...");
-                    client.close();
-                    break;
-                }
+        for(int i = 0; i < buffer.length; i++){
+            if(buffer[i] == 0){
+                break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            size++;
+        }
+        return Arrays.copyOfRange(buffer, 0, size);
+    }
+
+    public byte[] getFromClient(byte[] buffer, BufferedInputStream bIn) throws IOException {
+        if(bIn.read(buffer) > 0){
+            return trimBuffer(buffer);
+        } else {
+            return new byte[0];
         }
     }
 
-    /**
-     * Обработчик входных запросов. Перенаправляет контекст вызова в одну из функций соответствующиему входному префиксу.
-     * <br>
-     * Список заголовочных префиксов:
-     * <lu>
-     *     <li>
-     *         HASH - вернуть хэш строку по полученным данным
-     *     </li>
-     *     <li>
-     *         AUTH - аутентифициировать игрока
-     *     </li>
-     *     <li>
-     *         PREG - регистрация игрового персонажа
-     *     </li>
-     *     <li>
-     *         UPDT - обновить данные персонажа
-     *     </li>
-     *     <li>
-     *         CHCK - синхронизация данных клиента и сервера
-     *     </li>
-     *     <li>
-     *         CHNM - проверить регистрируемое имя
-     *     </li>
-     *
-     * </lu>
-     * @param prefix
-     * @param data
-     */
-    private void requestMapping(String prefix, String data) {
-        switch (prefix) {
-            case "HASH" -> {
-                sendHash(data);
-            }
-            case "AUTH" -> {
-                return;
-            }
-            case "PREG" -> {
-                registerNewPlayer();
-            }
-            case "UPDT" -> {
-                return;
-            }
-            case "CHCK" -> {
-                return ;
-            }
-            case "CHNM" -> {
-                return;
-            }
-
-            default -> logClient.info(clIP+"|> get unknown prefix "+prefix);
-        }
-    }
-
-    private void sendToClient(byte[] reply) {
+    public void sendToClient(byte[] reply) {
         logClient.info(clIP+"|>Reply: " + Arrays.toString(reply));
         try {
             out.write(reply);
@@ -142,12 +83,15 @@ public class PlayerInstance implements Runnable {
     }
 
     @Mapping("HASH")
-    private void sendHash(@Params String data){
-        logClient.info(clIP+"|> get data: "+data);
+    private void sendHash(@Params byte[] data){
+
+        String stringData = new String(data);
+
+        logClient.info(clIP+"|> get data: "+stringData);
 
         byte[] hashResponse = HashGen.getHash("Genesis");
 
-        logClient.info(clIP+"|> send hash: "+data);
+        logClient.info(clIP+"|> send hash: "+stringData);
 
         sendToClient(hashResponse);
     }
@@ -161,6 +105,8 @@ public class PlayerInstance implements Runnable {
      * {@value #WAIT_RESPONSE}, после чего входной поток оборачивается классом {@link ObjectInputStream} и готовится принимать
      * сериализованные данные класса {@link PlayerDTO}, см.@see <a href="https://ru.wikipedia.org/wiki/DTO">Data Transfer Object</a>
      */
+
+    @Mapping("PREG")
     private void registerNewPlayer(){
         try {
 
@@ -180,6 +126,30 @@ public class PlayerInstance implements Runnable {
             sendToClient("NOT OK".getBytes(StandardCharsets.UTF_8));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    @Mapping("VLWD")
+    private void validateWorld(@Params byte[] worldHash){
+        logClient.info("Get world hash bytes for validate");
+        logClient.info(Arrays.toString(worldHash));
+
+        String worldHashLine = "";
+
+        for(byte b : worldHash){
+            worldHashLine = worldHashLine.concat(String.format("%02x",b));
+        }
+
+        logClient.info("World hash line ");
+        logClient.info(worldHashLine);
+
+        if(Arrays.equals(HashGen.getHash("Genesis"), worldHash)){
+            logClient.info("World hash id is valid");
+            sendToClient("VALID".getBytes(StandardCharsets.UTF_8));
+        } else {
+            logClient.info("World hash id is not valid");
+            sendToClient("NOT_VALID".getBytes(StandardCharsets.UTF_8));
         }
     }
 }

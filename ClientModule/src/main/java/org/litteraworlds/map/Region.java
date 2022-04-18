@@ -1,12 +1,15 @@
 package org.litteraworlds.map;
 
 import org.litteraworlds.net.HashGen;
+import org.litteraworlds.objects.Player;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
-public class Region {
+public class Region implements Serializable {
 
     private String regionHashID;
 
@@ -42,6 +45,11 @@ public class Region {
 
     public String getRegionHashID() {
         return regionHashID;
+    }
+
+    public void putPlayerIntoRandomZone(Player player){
+        int zoneNum = new Random().nextInt(zones.size());
+        player.putIntoMap(zones.get(zoneNum));
     }
 
     public byte[] getRegionHashIDBytes() {

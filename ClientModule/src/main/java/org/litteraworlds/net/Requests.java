@@ -21,13 +21,27 @@ public class Requests {
         PREG,
         UPDT,
         ADDZ,
-        CHCK
+        CHCK,
+        VLWD
     }
 
     private static ConnectionWorker connectionWorker;
 
     public static void setConnectionWorker(ConnectionWorker cw){
        connectionWorker = cw;
+    }
+
+    private static byte[] createRequestPackage(String header, String data){
+        return createRequestPackage(header.getBytes(StandardCharsets.UTF_8), data.getBytes(StandardCharsets.UTF_8));
+    }
+
+    private static byte[] createRequestPackage(byte[] header, byte[] data){
+        byte[] outcomeRequest = new byte[header.length+data.length];
+
+        System.arraycopy(header,0, outcomeRequest, 0, header.length);
+        System.arraycopy(data, 0, outcomeRequest, header.length, data.length);
+
+        return outcomeRequest;
     }
 
     private static String convertHashToString(byte[] hash){
@@ -38,18 +52,23 @@ public class Requests {
         return temp;
     }
 
-/*    public static byte[] getWorldHash(){
-        try{
-            connectionWorker.sendToServer(RequestHeaders.WDHS.name().toUpperCase(Locale.ROOT));
-            byte[] worldHash = connectionWorker.getFromServer();
-            Debug.toLog("Получен мировой хэш: "+ Arrays.toString(worldHash));
-            return worldHash;
-        } catch (IOException e) {
+    public static boolean validateWorld(byte[] worldHash){
+        try {
+            connectionWorker.sendToServer(createRequestPackage(RequestHeaders.VLWD.name().toUpperCase(Locale.ROOT).getBytes(StandardCharsets.UTF_8), worldHash));
+
+            byte[] response = connectionWorker.getFromServer();
+
+            if(new String(response).equals("VALID")){
+                return true;
+            } else {
+                throw new IOException();
+            }
+
+        } catch (IOException e){
             e.printStackTrace();
-            Debug.toLog("Произошла ошибка, генерируется временный случайный хэш");
-            return HashGen.getHash(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
+            return false;
         }
-    }*/
+    }
 
     public static byte[] getHash(){
         try {

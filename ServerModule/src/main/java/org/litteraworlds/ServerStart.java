@@ -20,6 +20,7 @@ public class ServerStart {
     private static final ExecutorService listenerService = Executors.newSingleThreadExecutor();
 
     public static void main(String[] args) throws IOException {
+
         log.info("Starting game server on port "+SERVER_PORT);
 
         serverSocket = ServerSocketFactory.getDefault().createServerSocket(SERVER_PORT);

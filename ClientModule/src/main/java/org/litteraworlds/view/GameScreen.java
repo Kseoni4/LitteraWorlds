@@ -143,7 +143,7 @@ public class GameScreen {
     }
 
     public static KeyStroke getScreenInput() throws IOException {
-        return screen.pollInput();
+        return screen.readInput();
     }
 
     private static boolean isTextLengthFit(String text){
