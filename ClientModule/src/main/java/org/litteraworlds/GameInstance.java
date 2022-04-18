@@ -1,5 +1,6 @@
 package org.litteraworlds;
 
+import org.litteraworlds.game.WorldGenerator;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.net.Requests;
 import org.litteraworlds.view.GameScreen;
@@ -44,6 +45,14 @@ public class GameInstance {
 
         Command.init();
         GameScreen.putString(MessageType.SYSTEM, "Игровые команды инициализированы");
+
+        if(!WorldGenerator.checkWorldExists()) {
+            GameScreen.putString(MessageType.SYSTEM, "Получение хэша с сервера и генерация мира");
+            WorldGenerator.generateWorld(Requests.getHash());
+            GameScreen.putString(MessageType.SYSTEM, "Игровой мир сгенерирован");
+        } else {
+            GameScreen.putString(MessageType.SYSTEM, "Игровой мир загружен");
+        }
     }
 
     public void startSequence() {

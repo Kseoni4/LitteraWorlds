@@ -2,8 +2,6 @@ package org.litteraworlds.map;
 
 import org.litteraworlds.objects.GameObject;
 
-import java.util.ArrayList;
-
 public class Room extends Place {
 
     private int roomIndex;
@@ -14,8 +12,8 @@ public class Room extends Place {
 
     private Room backRoom = null;
 
-    public Room(String hashCode, Floor floorInBuilding, int roomIndex) {
-        super("", Direction.NORTH, hashCode);
+    public Room(byte[] floorHashCode, Floor floorInBuilding, int roomIndex) {
+        super("Комната "+roomIndex+" "+floorInBuilding, Direction.NORTH, floorHashCode);
         this.floorInBuilding = floorInBuilding;
         this.roomIndex = roomIndex;
     }
@@ -30,5 +28,10 @@ public class Room extends Place {
 
     public void setBackRoom(Room backRoom) {
         this.backRoom = backRoom;
+    }
+
+    @Override
+    public String toString(){
+        return "Комната "+roomIndex+" этаж "+floorInBuilding.getFloorNumber();
     }
 }

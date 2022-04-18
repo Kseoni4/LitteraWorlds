@@ -8,6 +8,9 @@ import org.litteraworlds.view.MessageType;
 import org.litteraworlds.workers.ConnectionWorker;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class Requests {
@@ -35,10 +38,24 @@ public class Requests {
         return temp;
     }
 
+/*    public static byte[] getWorldHash(){
+        try{
+            connectionWorker.sendToServer(RequestHeaders.WDHS.name().toUpperCase(Locale.ROOT));
+            byte[] worldHash = connectionWorker.getFromServer();
+            Debug.toLog("Получен мировой хэш: "+ Arrays.toString(worldHash));
+            return worldHash;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Debug.toLog("Произошла ошибка, генерируется временный случайный хэш");
+            return HashGen.getHash(LocalDateTime.now().toString().getBytes(StandardCharsets.UTF_8));
+        }
+    }*/
+
     public static byte[] getHash(){
         try {
             connectionWorker.sendToServer(RequestHeaders.HASH.name().toUpperCase(Locale.ROOT));
             byte[] hash = connectionWorker.getFromServer();
+            Debug.toLog("Получен хэш: "+ Arrays.toString(hash));
             return hash;
         } catch (IOException e){
             e.printStackTrace();

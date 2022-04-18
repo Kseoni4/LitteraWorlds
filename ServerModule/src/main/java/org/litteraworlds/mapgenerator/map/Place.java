@@ -13,31 +13,32 @@ import java.util.stream.Collectors;
 public abstract class Place implements Serializable {
     private String placeHashID;
 
+    private byte[] placeHashIDBytes;
+
     private ArrayList<String> aroundPlacesID;
 
     private String placeName;
-
-    private LocalDateTime createTime;
 
     private Direction originFromPivot;
 
     public ArrayList<GameObject> objectsInPlace;
 
-    public Place(Direction originFromPivot, String hash){
+    public Place(Direction originFromPivot, byte[] hash){
         this("", originFromPivot, hash);
     }
 
-    public Place(String name, Direction originFromPivot, String hash){
+    public Place(String name, Direction originFromPivot, byte[] hash){
         this.aroundPlacesID = new ArrayList<>();
-        this.createTime = LocalDateTime.now();
         this.placeName = name;
         this.originFromPivot = originFromPivot;
         this.objectsInPlace = new ArrayList<>();
-        String dataToHash = this.placeName+this.originFromPivot+hash;
+        String dataToHash = this.placeName+this.originFromPivot+convertHashToString(hash);
 
         System.out.println("Data to hash: "+dataToHash);
 
-        placeHashID = convertHashToString(HashGen.getHash(dataToHash));
+        this.placeHashIDBytes = HashGen.getHash(dataToHash);
+
+        this.placeHashID = convertHashToString(this.placeHashIDBytes);
     }
 
     private static String convertHashToString(byte[] hash){
@@ -81,6 +82,10 @@ public abstract class Place implements Serializable {
 
     public String getPlaceHashID() {
         return placeHashID;
+    }
+
+    public byte[] getPlaceHashIDBytes() {
+        return placeHashIDBytes;
     }
 
     public ArrayList<String> getAroundPlacesID() {

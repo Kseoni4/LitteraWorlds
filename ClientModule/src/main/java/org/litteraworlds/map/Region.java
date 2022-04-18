@@ -1,44 +1,51 @@
 package org.litteraworlds.map;
-import org.litteraworlds.objects.Player;
 
-import java.io.Serializable;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
+import org.litteraworlds.net.HashGen;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Logger;
 
-public class Region implements Serializable {
+public class Region {
 
     private String regionHashID;
+
+    private byte[] regionHashIDBytes;
 
     private String regionName;
 
     private ArrayList<Zone> zones = new ArrayList<>();
 
     public Region(){
-        this("unknownRegion","");
+        this("unknownRegion",new byte[0]);
     }
 
-    public Region(String regionName, String regionHashID){
+    public Region(String regionName, byte[] regionHashIDBytes){
         this.regionName = regionName;
 
-        this.regionHashID = regionHashID;
+        this.regionHashIDBytes = HashGen.getHash(regionHashIDBytes);
+
+        this.regionHashID = convertHashToString(this.regionHashIDBytes);
     }
 
-    public void putPlayerIntoRandomZone(Player player) {
-        int randomIndex = ThreadLocalRandom.current().nextInt(zones.size());
-        player.putIntoMap(zones.get(randomIndex));
+    private static String convertHashToString(byte[] hash){
+        String temp = "";
+        for(byte b : hash){
+            temp = temp.concat(String.format("%02x",b));
+        }
+        return temp;
     }
 
-        public List<Zone> getZones() {
+    public List<Zone> getZones() {
         return zones;
     }
 
     public String getRegionHashID() {
         return regionHashID;
+    }
+
+    public byte[] getRegionHashIDBytes() {
+        return regionHashIDBytes;
     }
 
     public String getRegionName() {
@@ -47,6 +54,14 @@ public class Region implements Serializable {
 
     public void putZone(Zone zone){
         this.zones.add(zone);
+    }
+
+    public Zone getZone(String name){
+        return this.zones.stream().filter(zone -> zone.getPlaceName().equals(name)).findFirst().orElseThrow();
+    }
+
+    public Zone getZone(byte[] hash){
+        return this.zones.stream().filter(zone -> Arrays.equals(zone.getPlaceHashIDBytes(), hash)).findFirst().orElseThrow();
     }
 
     @Override

@@ -1,13 +1,11 @@
 package org.litteraworlds.map;
 
-import org.litteraworlds.objects.GameObject;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-public class Zone extends Place{
+public class Zone extends Place {
 
     private ArrayList<Building> buildingsInZone;
 
@@ -15,19 +13,11 @@ public class Zone extends Place{
 
     private int zoneSquare;
 
-/*
-    public Zone(String name, String hashID, Position zonePositionInRegion) {
-        super(name, hashID, zonePositionInRegion);
-        this.zoneSquare = zoneSquare;
-        this.connectedZones = new LinkedList<>();
-        this.buildingsInZone = new ArrayList<>();
-    }*/
-
-    public Zone(Direction originFromRegionCenter, String hashId){
+    public Zone(Direction originFromRegionCenter, byte[] hashId){
         this("unknownZone", originFromRegionCenter, hashId);
     }
 
-    public Zone(String name, Direction originFromRegionCenter, String hashId){
+    public Zone(String name, Direction originFromRegionCenter, byte[] hashId){
         super(name, originFromRegionCenter, hashId);
         buildingsInZone = new ArrayList<>();
     }
@@ -38,15 +28,14 @@ public class Zone extends Place{
 
     public void putBuildingInZone(Building building){
         this.buildingsInZone.add(building);
-        building.putIntoMap(this);
     }
 
     public List<Building> getBuildingsInZone(){
         return this.buildingsInZone;
     }
 
-    public Building getBuilding(int buildingID){
-        Optional<Building> optionalBuilding = buildingsInZone.stream().filter(building -> building.getBuildingID() == buildingID).findFirst();
+    public Building getBuilding(String buildingHashID){
+        Optional<Building> optionalBuilding = buildingsInZone.stream().filter(building -> building.getPlaceHashID().equals(buildingHashID)).findFirst();
         return optionalBuilding.orElseThrow();
     }
     @Override

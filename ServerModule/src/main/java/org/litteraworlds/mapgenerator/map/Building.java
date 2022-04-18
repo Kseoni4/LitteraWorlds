@@ -1,35 +1,37 @@
 package org.litteraworlds.mapgenerator.map;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Building extends GameObject {
-
-    private final int buildingID;
+public class Building extends Place{
 
     private final Zone linkedZone;
 
     private final LinkedList<Floor> floors = new LinkedList<>();
 
-    private Building(int floorsCount, Zone linkedZone, int id){
+    private Building(int floorsCount, Direction originFromZoneCenter, Zone linkedZone, byte[] zoneHash){
+        super("Здание в "+linkedZone.toString(), originFromZoneCenter, zoneHash);
         this.linkedZone = linkedZone;
-        this.buildingID = id;
         generateFloors(floorsCount);
-        setName("Здание");
     }
 
     private void generateFloors(int count) {
         System.out.println(this+" generate floors");
         for(int i = 0; i < count; i++){
             System.out.println("Add floor "+i);
-            floors.add(i, new Floor(linkedZone.getPlaceHashID().concat("|"+buildingID),this, i));
+            floors.add(i, new Floor(linkedZone.getPlaceHashIDBytes(),this, i));
         }
     }
 
     public Floor getFirstFloor(){
         System.out.println(floors.toString());
         return floors.getFirst();
+    }
+
+    public List<Floor> getFloors(){
+        return floors;
     }
 
     public List<Room> getRoomsFromFloor(int floorIndex){
@@ -45,12 +47,8 @@ public class Building extends GameObject {
         return rooms;
     }
 
-    public int getBuildingID(){
-        return buildingID;
-    }
-
-    public static Building createNewBuilding(int roomsCount, Zone linkedZone, int id){
-        return new Building(roomsCount, linkedZone, id);
+    public static Building createNewBuilding(int roomsCount, Direction originFromZoneCenter, Zone linkedZone, byte[] zoneHash){
+        return new Building(roomsCount, originFromZoneCenter, linkedZone, zoneHash);
     }
 
     public Zone getLinkedZone(){

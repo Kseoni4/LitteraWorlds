@@ -42,9 +42,9 @@ public final class Command {
 
             for(String line : lines){
 
-                String commandLocale = line.split(",")[0];
+                String commandLocale = line.split(",")[0].trim();
 
-                String methodName = line.split(",")[1];
+                String methodName = line.split(",")[1].trim();
 
                 if(commandLocale.split(" ").length > 1) {
                     String[] commandWithOp = commandLocale.split(" ");

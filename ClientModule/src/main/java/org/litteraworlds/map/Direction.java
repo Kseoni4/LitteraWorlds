@@ -1,10 +1,7 @@
 package org.litteraworlds.map;
 
-import org.litteraworlds.view.*;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -38,7 +35,7 @@ public enum Direction {
             Optional<Direction> optionalDirection = Arrays.stream(Direction.values()).filter(direction -> direction.ruLocale.equalsIgnoreCase(locale)).findFirst();
             return optionalDirection.orElseThrow();
         } catch (NoSuchElementException e){
-            GameScreen.putString(MessageType.ERROR, TextLines.getLine(LinesType.UNKNOWN_DIRECTION));
+            //GameScreen.putString(MessageType.ERROR, TextLines.getLine(LinesType.UNKNOWN_DIRECTION));
         }
         return null;
     }

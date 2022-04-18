@@ -13,11 +13,11 @@ public class Zone extends Place {
 
     private int zoneSquare;
 
-    public Zone(Direction originFromRegionCenter, String hashId){
+    public Zone(Direction originFromRegionCenter, byte[] hashId){
         this("unknownZone", originFromRegionCenter, hashId);
     }
 
-    public Zone(String name, Direction originFromRegionCenter, String hashId){
+    public Zone(String name, Direction originFromRegionCenter, byte[] hashId){
         super(name, originFromRegionCenter, hashId);
         buildingsInZone = new ArrayList<>();
     }
@@ -28,15 +28,14 @@ public class Zone extends Place {
 
     public void putBuildingInZone(Building building){
         this.buildingsInZone.add(building);
-        building.putIntoMap(this);
     }
 
     public List<Building> getBuildingsInZone(){
         return this.buildingsInZone;
     }
 
-    public Building getBuilding(int buildingID){
-        Optional<Building> optionalBuilding = buildingsInZone.stream().filter(building -> building.getBuildingID() == buildingID).findFirst();
+    public Building getBuilding(String buildingHashID){
+        Optional<Building> optionalBuilding = buildingsInZone.stream().filter(building -> building.getPlaceHashID().equals(buildingHashID)).findFirst();
         return optionalBuilding.orElseThrow();
     }
     @Override

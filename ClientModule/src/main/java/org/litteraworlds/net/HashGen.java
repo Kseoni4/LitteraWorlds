@@ -1,11 +1,9 @@
-package org.litteraworlds.security;
+package org.litteraworlds.net;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.Random;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class HashGen {

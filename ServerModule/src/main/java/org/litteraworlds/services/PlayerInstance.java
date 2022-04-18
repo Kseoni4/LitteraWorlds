@@ -2,6 +2,8 @@ package org.litteraworlds.services;
 
 import org.litteraworlds.dto.PlayerDTO;
 import org.litteraworlds.security.HashGen;
+import org.litteraworlds.services.annotations.Mapping;
+import org.litteraworlds.services.annotations.Params;
 
 import java.io.*;
 import java.net.Socket;
@@ -139,7 +141,8 @@ public class PlayerInstance implements Runnable {
         }
     }
 
-    private void sendHash(String data){
+    @Mapping("HASH")
+    private void sendHash(@Params String data){
         logClient.info(clIP+"|> get data: "+data);
 
         byte[] hashResponse = HashGen.getHash("Genesis");

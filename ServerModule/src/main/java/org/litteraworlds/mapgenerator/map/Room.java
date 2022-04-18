@@ -10,8 +10,8 @@ public class Room extends Place {
 
     private Room backRoom = null;
 
-    public Room(String hashCode, Floor floorInBuilding, int roomIndex) {
-        super("", Direction.NORTH, hashCode);
+    public Room(byte[] floorHashCode, Floor floorInBuilding, int roomIndex) {
+        super("Комната "+roomIndex+" "+floorInBuilding, Direction.NORTH, floorHashCode);
         this.floorInBuilding = floorInBuilding;
         this.roomIndex = roomIndex;
     }

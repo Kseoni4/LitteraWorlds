@@ -1,7 +1,6 @@
 package org.litteraworlds;
 
 import org.litteraworlds.game.GameLogic;
-import org.litteraworlds.game.MapGeneration;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.map.Region;
 import org.litteraworlds.net.Requests;
@@ -156,8 +155,8 @@ public class GameLoop {
 
         GameScreen.putString(MessageType.INFO,h);
 
-        region = MapGeneration.generateNewRegion(hash);
-        region.putPlayerIntoRandomZone(player);
+/*        region = MapGeneration.(hash);
+        region.putPlayerIntoRandomZone(player);*/
 
         GameScreen.putString(MessageType.SYSTEM,"Регистрация игрока на сервере");
         GameScreen.putString(MessageType.SYSTEM,"Отправка данных...");

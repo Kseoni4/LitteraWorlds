@@ -65,8 +65,7 @@ public class GameLogic {
     }
 
     public static void enterBuilding(String buildingName) {
-        Building building = (Building) GameLoop.getPlayer().getObjectPlace().findObjectInPlace(buildingName);
-        Debug.toLog(building);
+        /*Debug.toLog(building);
         Debug.toLog(building.getObjectPlace());
         Debug.toLog(building.getObjectPosition());
         if(building != null) {
@@ -77,7 +76,7 @@ public class GameLogic {
             GameScreen.putString(TextColors.PLAYER_COLOR, GameLoop.getPlayer().getObjectPlace().toString());
         } else {
             GameScreen.putString(TextColors.ERROR_MESSAGE, "Некуда входить");
-        }
+        }*/
     }
 
     public static void lookAround() {

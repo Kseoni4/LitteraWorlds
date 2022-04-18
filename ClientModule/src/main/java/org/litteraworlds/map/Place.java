@@ -1,46 +1,44 @@
 package org.litteraworlds.map;
-import org.litteraworlds.map.Direction;
-import org.litteraworlds.net.Requests;
+
+import org.litteraworlds.net.HashGen;
 import org.litteraworlds.objects.GameObject;
-import org.litteraworlds.view.Debug;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public abstract class Place implements Serializable {
     private String placeHashID;
 
+    private byte[] placeHashIDBytes;
+
     private ArrayList<String> aroundPlacesID;
 
     private String placeName;
-
-    private LocalDateTime createTime;
 
     private Direction originFromPivot;
 
     public ArrayList<GameObject> objectsInPlace;
 
-    public Place(Direction originFromPivot, String hash){
+    public Place(Direction originFromPivot, byte[] hash){
         this("", originFromPivot, hash);
     }
 
-    public Place(String name, Direction originFromPivot, String hash){
+    public Place(String name, Direction originFromPivot, byte[] hash){
         this.aroundPlacesID = new ArrayList<>();
-        this.createTime = LocalDateTime.now();
         this.placeName = name;
         this.originFromPivot = originFromPivot;
         this.objectsInPlace = new ArrayList<>();
-        String dataToHash = this.placeName+this.originFromPivot+hash;
+        String dataToHash = this.placeName+this.originFromPivot+convertHashToString(hash);
 
-        Debug.toLog("Data to hash: "+dataToHash);
+        System.out.println("Data to hash: "+dataToHash);
 
-        placeHashID = convertHashToString(Requests.getHash());
+        this.placeHashIDBytes = HashGen.getHash(dataToHash);
+
+        this.placeHashID = convertHashToString(this.placeHashIDBytes);
     }
 
     private static String convertHashToString(byte[] hash){
@@ -53,12 +51,12 @@ public abstract class Place implements Serializable {
 
 
     public GameObject findObjectInPlace(String name){
-        Debug.toLog(Arrays.toString(objectsInPlace.toArray()));
+        System.out.println(Arrays.toString(objectsInPlace.toArray()));
         Optional<GameObject> optionalGameObject = objectsInPlace.stream()
                 .filter(gameObject -> gameObject.getName().equals(name))
                 .findFirst();
         return optionalGameObject.or(()-> {
-            Debug.toLog("Object "+name+" is not found");
+            System.out.println("Object "+name+" is not found");
             return Optional.empty();
         }).orElse(null);
     }
@@ -84,6 +82,10 @@ public abstract class Place implements Serializable {
 
     public String getPlaceHashID() {
         return placeHashID;
+    }
+
+    public byte[] getPlaceHashIDBytes() {
+        return placeHashIDBytes;
     }
 
     public ArrayList<String> getAroundPlacesID() {

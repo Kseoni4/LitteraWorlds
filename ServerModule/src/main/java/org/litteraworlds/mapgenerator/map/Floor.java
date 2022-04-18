@@ -17,7 +17,7 @@ public class Floor extends Place {
 
     private void generateRooms(int count){
         for (int i = 0; i < count; i++) {
-            rooms.add(i, new Room(this.getPlaceHashID().concat(""+(linkedBuilding.getBuildingID()*(i+1)*2)), this, i));
+            rooms.add(i, new Room(this.getPlaceHashIDBytes(), this, i));
             if (i > 0) {
                 rooms.get(i).setBackRoom(rooms.get(i - 1));
                 rooms.get(i - 1).setNextRoom(rooms.getLast());
@@ -38,8 +38,8 @@ public class Floor extends Place {
         return rooms.stream().toList();
     }
 
-    public Floor(String hashCode, Building linkedBuilding, int floorNumber) {
-        super(Direction.NORTH,hashCode);
+    public Floor(byte[] buildingHashCode, Building linkedBuilding, int floorNumber) {
+        super("Этаж "+floorNumber,Direction.NORTH, buildingHashCode);
         this.floorNumber = floorNumber;
         this.linkedBuilding = linkedBuilding;
         generateRooms(2);
