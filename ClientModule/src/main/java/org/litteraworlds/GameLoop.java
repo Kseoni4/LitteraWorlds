@@ -190,5 +190,6 @@ public class GameLoop {
                 Command.parse(commandLine);
             }
         }
+
     }
 }

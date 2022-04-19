@@ -26,6 +26,8 @@ public class GameScreen {
 
     private static final int START_X = 1;
 
+    private static final String SCREEN_TITLE = "Littera Worlds Online 0.1dev";
+
     private static TerminalScreen screen;
 
     private static TextGraphics screenText;
@@ -49,6 +51,8 @@ public class GameScreen {
             Font font = Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(18f);
 
             dtf.setTerminalEmulatorFontConfiguration(SwingTerminalFontConfiguration.newInstance(font));
+
+            dtf.setTerminalEmulatorTitle(SCREEN_TITLE);
 
             screen = dtf.createScreen();
 

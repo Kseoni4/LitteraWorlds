@@ -27,6 +27,9 @@ public final class PlayerInput {
         try {
             while (commandNotEnter(GameScreen.getScreenInput())) {
                 if (keyIsValid()) {
+                    if(key.getKeyType().equals(KeyType.EOF)){
+                        break;
+                    }
 
                     if (key.getKeyType().equals(KeyType.Backspace) && pointer > 1) {
 

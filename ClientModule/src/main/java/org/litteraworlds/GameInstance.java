@@ -61,7 +61,7 @@ public class GameInstance {
 
     public void startSequence() {
         GameScreen.putString(TextColors.HELP_MESSAGE, "Для начала игры, введите команду /старт");
-        while (true) {
+        while (!GameScreen.isClose()) {
             try {
                 String command = inputCommand();
                 switch (command) {
@@ -91,6 +91,8 @@ public class GameInstance {
                 e.printStackTrace();
             } finally {
                 GameScreen.dispose();
+                connectionWorker.close();
+                workers.shutdown();
             }
         }
     }

@@ -74,18 +74,20 @@ public class ConnectionWorker implements Runnable {
         try{
             while(!server.isClosed()){
                 TimeUnit.MILLISECONDS.sleep(500);
-                /*byte[] incomingData = getFromServer();
-                String inputString = "";
-                if(incomingData != null){
-                    inputString = new String(incomingData).trim();
-                } else {
-                    inputString = "nothing";
-                }
-                Debug.toLog("GET FROM SERVER:"+inputString);*/
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
             Thread.currentThread().interrupt();
+        }
+    }
+
+    public void close(){
+        try {
+            this.in.close();
+            this.out.close();
+            this.server.close();
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 }
