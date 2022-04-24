@@ -1,5 +1,6 @@
 package org.litteraworlds.objects;
 
+import org.litteraworlds.utils.HashToString;
 import org.litteraworlds.view.colors.Colors;
 
 import java.io.Serializable;
@@ -11,9 +12,11 @@ public class Player extends Creature {
 
     private String tokenID;
 
+    private byte[] tokenIDBytes;
+
     private final ArrayList<Item> inventory = new ArrayList<>();
 
-    private Abilities playerAbilities;
+    private final Abilities playerAbilities;
 
     public Player(String name) {
         super(Colors.GREEN_PASTEL,name);
@@ -23,23 +26,28 @@ public class Player extends Creature {
     public void putIntoInventory(Item item) {
         this.inventory.add(item);
     }
-
     public Item getFromInventory(Item item) {
         Optional<Item> optionalItem = this.inventory.stream().filter(itm -> itm.getID() == item.getID()).findFirst();
         return optionalItem.orElseThrow();
     }
-
     public List<Item> getInventory(){
         return inventory;
     }
+
     public String getTokenID() {
         return tokenID;
+    }
+    public byte[] getTokenIDBytes() {
+        return tokenIDBytes;
+    }
+    public void setTokenID(byte[] tokenBytes){
+        this.tokenIDBytes = tokenBytes;
+        this.tokenID = HashToString.convert(tokenBytes);
     }
 
     public Abilities getPlayerAbilities(){
         return this.playerAbilities;
     }
-
     public static class Abilities implements Serializable {
         private int atk;
 

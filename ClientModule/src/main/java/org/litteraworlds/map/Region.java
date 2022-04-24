@@ -1,6 +1,6 @@
 package org.litteraworlds.map;
 
-import org.litteraworlds.net.HashGen;
+import org.litteraworlds.utils.HashGen;
 import org.litteraworlds.objects.Player;
 
 import java.io.Serializable;

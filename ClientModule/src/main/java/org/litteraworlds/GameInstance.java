@@ -75,8 +75,6 @@ public class GameInstance {
 
                         GameLoop gameLoop = new GameLoop(connectionWorker);
 
-                        gameLoop.playerCreation();
-
                         gameLoop.start();
                     }
                     case "/выход" -> {

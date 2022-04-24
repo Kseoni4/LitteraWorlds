@@ -1,5 +1,6 @@
 package org.litteraworlds;
 
+import org.litteraworlds.database.DBService;
 import org.litteraworlds.workers.ServerListener;
 
 import javax.net.ServerSocketFactory;
@@ -28,6 +29,8 @@ public class ServerStart {
         log.info(() -> "Server socket information "+serverSocket.toString());
 
         ServerListener serverListener = new ServerListener(serverSocket);
+
+        DBService.getInstance();
 
         listenerService.execute(serverListener);
     }

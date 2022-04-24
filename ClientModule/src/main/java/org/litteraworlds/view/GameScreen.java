@@ -102,6 +102,10 @@ public class GameScreen {
         putIntoScreenAndRefresh(messageType.toString(), message);
     }
 
+    public static void putEmptyString(){
+        putString("");
+    }
+
     public static void putString(String s){
         putString(Colors.GREY, s);
     }

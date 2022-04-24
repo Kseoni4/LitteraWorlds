@@ -22,8 +22,16 @@ public class Requests {
         UPDT,
         ADDZ,
         CHCK,
-        VLWD
+        VLWD;
+
+        public String getUpperCaseName(){
+            return this.name().toUpperCase(Locale.ROOT);
+        }
     }
+
+    private static final String WAIT_DTO_RESPONSE = "WAIT_FOR_DTO";
+    private static final String GOOD_RESPONSE = "OK";
+    private static final String BAD_RESPONSE = "NOT OK";
 
     private static ConnectionWorker connectionWorker;
 
@@ -54,7 +62,13 @@ public class Requests {
 
     public static boolean validateWorld(byte[] worldHash){
         try {
-            connectionWorker.sendToServer(createRequestPackage(RequestHeaders.VLWD.name().toUpperCase(Locale.ROOT).getBytes(StandardCharsets.UTF_8), worldHash));
+
+            //Формируем пакет данных для отправки
+            //Формат такой:
+            //От 0 до 3 байта - заголовок, остальное - полезные данные.
+            byte[] reqPack = createRequestPackage(RequestHeaders.VLWD.getUpperCaseName().getBytes(StandardCharsets.UTF_8), worldHash);
+
+            connectionWorker.sendToServer(reqPack);
 
             byte[] response = connectionWorker.getFromServer();
 
@@ -72,7 +86,7 @@ public class Requests {
 
     public static byte[] getHash(){
         try {
-            connectionWorker.sendToServer(RequestHeaders.HASH.name().toUpperCase(Locale.ROOT));
+            connectionWorker.sendToServer(RequestHeaders.HASH.getUpperCaseName());
             byte[] hash = connectionWorker.getFromServer();
             Debug.toLog("Получен хэш: "+ Arrays.toString(hash));
             return hash;
@@ -82,23 +96,31 @@ public class Requests {
         }
     }
 
+    /**
+     * <h3>[CLIENT-SIDE]</h3>
+     * <h4>Регистрация игрока на сервере</h4>
+     * <p>
+     *   Функция принимает полученный на этапе создания персонажа объект {@link Player} и пакует его в DTO контейнер
+     *   ({@link PlayerDTO} для сериализации в поток байт и передачи на сервер.<br>
+     *   После отправки данных ождиает ответ. Если ответ от сервера {@value #GOOD_RESPONSE}, то игрок успешно зарегистрирован и вернуть true.<br>
+     *   В противном случае либо вызвать {@link IOException}, либо вернуть false.
+     * </p>
+     * @param player ссылка на игрового персонажа
+     * @return ture или false в зависимости от успеха регистрации
+     */
     public static boolean registerPlayer(Player player){
         try {
-            String response = "";
-            connectionWorker.sendToServer(RequestHeaders.PREG.name().toUpperCase(Locale.ROOT));
+            connectionWorker.sendToServer(RequestHeaders.PREG.getUpperCaseName());
 
-            response = new String(connectionWorker.getFromServer());
+            String response = new String(connectionWorker.getFromServer());
             Debug.toLog("Response: "+response);
-            if(response.equals("WAIT_FOR_DTO")) {
+
+            if(response.equals(WAIT_DTO_RESPONSE)) {
                 connectionWorker.sendToServer(new PlayerDTO(player));
 
                 response = new String(connectionWorker.getFromServer());
 
-                if (response.equals("OK")) {
-                    return true;
-                } else {
-                    throw new IOException();
-                }
+                return response.equals(GOOD_RESPONSE);
             } else {
                 throw new IOException();
             }

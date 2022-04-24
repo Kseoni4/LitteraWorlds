@@ -1,4 +1,4 @@
-package org.litteraworlds.net;
+package org.litteraworlds.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -28,11 +28,7 @@ public class HashGen {
 
             byte[] rawHash = hashGen.digest(data);
 
-            String encodedHash = "";
-
-            for(byte b : rawHash){
-                encodedHash = encodedHash.concat(String.format("%02x",b));
-            }
+            String encodedHash = HashToString.convert(rawHash);
 
             System.out.println("Generate new hash: "+encodedHash);
             return rawHash;
@@ -52,11 +48,7 @@ public class HashGen {
 
             byte[] rawHash = hashGen.digest(data.getBytes(StandardCharsets.UTF_8));
 
-            String encodedHash = "";
-
-            for(byte b : rawHash){
-                encodedHash = encodedHash.concat(String.format("%02x",b));
-            }
+            String encodedHash = HashToString.convert(rawHash);
 
             System.out.println("Generate new hash: "+encodedHash);
             return rawHash;

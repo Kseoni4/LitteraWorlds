@@ -20,7 +20,9 @@ public class ConnectionWorker implements Runnable {
 
     public void sendToServer(PlayerDTO playerDTO) throws IOException {
         ObjectOutputStream outputStream = new ObjectOutputStream(out);
+
         Debug.toLog("Отправляем "+playerDTO);
+
         outputStream.writeObject(playerDTO);
         outputStream.flush();
     }
@@ -32,13 +34,13 @@ public class ConnectionWorker implements Runnable {
     public void sendToServer(byte[] outcomingData){
         try{
             BufferedOutputStream bOut = new BufferedOutputStream(out);
+
             String s = new String(outcomingData);
-
-            //s = s.concat("\n");
-
             Debug.toLog("Send to server: "+s);
+
             bOut.write(outcomingData);
             bOut.flush();
+
             Debug.toLog("Flush out...");
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +53,7 @@ public class ConnectionWorker implements Runnable {
         if((l = in.read(inputBuffer)) > 0) {
             return Arrays.copyOf(inputBuffer,l);
         } else {
-            return null;
+            return new byte[0];
         }
     }
 
