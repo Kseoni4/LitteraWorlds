@@ -1,0 +1,17 @@
+
+†
+java:S1319"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(¢ìˆ
+P
+java:S1141["5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ
+5
+java:S1640"Convert this Map to an EnumMap.(•Œ®ş
+b
+java:S2095]"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(é±õà
+@
+java:S1481B"*Remove this unused "lines" local variable.(î“ÅÉ
+G
+java:S1481D"1Remove this unused "placeHolders" local variable.(‡éš’
+S	java:S106Q"9Replace this use of System.out or System.err by a logger.(Èÿ¨¼úÿÿÿÿ
+N	java:S106U"9Replace this use of System.out or System.err by a logger.(µú 
+J
+java:S1144n"4Remove this unused private "getPlaceHolders" method.(ÖŞñ

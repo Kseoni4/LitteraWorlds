@@ -3,10 +3,8 @@ package org.litteraworlds.game;
 import org.litteraworlds.GameLoop;
 import org.litteraworlds.input.Command;
 import org.litteraworlds.input.PlayerInput;
-import org.litteraworlds.map.Building;
-import org.litteraworlds.map.Direction;
-import org.litteraworlds.map.Place;
-import org.litteraworlds.map.Position;
+import org.litteraworlds.map.*;
+import org.litteraworlds.objects.Creature;
 import org.litteraworlds.objects.GameObject;
 import org.litteraworlds.view.Debug;
 import org.litteraworlds.view.GameScreen;
@@ -121,4 +119,15 @@ public class GameLogic {
             GameScreen.putString(TextColors.HELP_MESSAGE, "Команда /"+s);
         }
     }
+
+    public static void tryToEscape(){
+
+    }
+
+    public static void attack(String creatureName){
+        Creature creature = (Creature) getGameObjectIfExists(creatureName);
+
+    }
+
+
 }

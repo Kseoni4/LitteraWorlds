@@ -1,21 +1,0 @@
-
-T
-java:S5993"9Change the visibility of this constructor to "protected".(ÉÛÝ«ÿÿÿÿÿ
-T
-java:S5993!"9Change the visibility of this constructor to "protected".(žêÖêøÿÿÿÿ
-F
-java:S1948"0Make "objectsInPlace" transient or serializable.(î§Î‹
-h
-java:S6204J"RReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()'(œ–ÂÕ
-v
-java:S1128"TRemove this unnecessary import: same package classes are always implicitly imported.(æÐ¹ëøÿÿÿÿ8üðæ£‚0
-R
-java:S1128"5Remove this unused import 'java.util.logging.Logger'.(ƒ¥óš8üðæ£‚0
-K
-java:S1068".Remove this unused "createTime" private field.(òáÄÝ8û™÷•‚0
-„
-java:S1319"nThe type of "objectsInPlace" should be an interface such as "List" rather than the implementation "ArrayList".(î§Î‹
-†
-java:S1319Y"pThe return type of this method should be an interface such as "List" rather than the implementation "ArrayList".(®¸ëæ
-p
-java:S1104"ZMake objectsInPlace a static final constant or non-public and provide accessors if needed.(î§Î‹

@@ -1,3 +1,5 @@
 
-R
-java:S1948"0Make "linkedBuilding" transient or serializable.(ç¥ ±úÿÿÿÿ8…Ø‰•‚0
+N	java:S106%"9Replace this use of System.out or System.err by a logger.(Ûù¬°
+S	java:S106."9Replace this use of System.out or System.err by a logger.(ïûœçøÿÿÿÿ
+M
+java:S1068"2Remove this unused "linkedBuilding" private field.(ç¥ ±úÿÿÿÿ

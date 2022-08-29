@@ -1,14 +1,37 @@
 
 p
-java:S1450"URemove the "random" field and declare it as a local variable in the relevant methods.(âÂ¸µýÿÿÿÿ
-S	java:S106="9Replace this use of System.out or System.err by a logger.(¶óî›ÿÿÿÿÿ
-N	java:S106>"9Replace this use of System.out or System.err by a logger.(Ò¹ÃÕ
-N	java:S106?"9Replace this use of System.out or System.err by a logger.(˜êš
-N	java:S106@"9Replace this use of System.out or System.err by a logger.(§ôã¦
-N	java:S106A"9Replace this use of System.out or System.err by a logger.(ÂÑë…
-S	java:S106C"9Replace this use of System.out or System.err by a logger.(¸›üæýÿÿÿÿ
-M	java:S106E"9Replace this use of System.out or System.err by a logger.(‘èÔ~
-N	java:S106G"9Replace this use of System.out or System.err by a logger.(øÜùê
-U	java:S106K"9Replace this use of System.out or System.err by a logger.(‡‹¿Æ8ï°÷–‚0
-w
-java:S2629'"\Invoke method(s) only conditionally. Use the built-in formatting to construct this argument.(òÁåøÿÿÿÿÿ
+java:S1450""URemove the "random" field and declare it as a local variable in the relevant methods.(âÂ¸µýÿÿÿÿ
+m
+java:S3776$"RRefactor this method to reduce its Cognitive Complexity from 30 to the 15 allowed.(­¥ù’øÿÿÿÿ
+S	java:S106R"9Replace this use of System.out or System.err by a logger.(¶óî›ÿÿÿÿÿ
+N	java:S106S"9Replace this use of System.out or System.err by a logger.(Ò¹ÃÕ
+S	java:S106T"9Replace this use of System.out or System.err by a logger.(“æ¼Ãýÿÿÿÿ
+S	java:S106U"9Replace this use of System.out or System.err by a logger.(Á¡Áßøÿÿÿÿ
+N	java:S106W"9Replace this use of System.out or System.err by a logger.(§ôã¦
+N	java:S106X"9Replace this use of System.out or System.err by a logger.(ÂÑë…
+M	java:S106Z"9Replace this use of System.out or System.err by a logger.(ó¦ª
+M	java:S106\"9Replace this use of System.out or System.err by a logger.(‘èÔ~
+N	java:S106^"9Replace this use of System.out or System.err by a logger.(øÜùê
+N	java:S106c"9Replace this use of System.out or System.err by a logger.(íÜþÃ
+S	java:S106d"9Replace this use of System.out or System.err by a logger.(êªÆ›úÿÿÿÿ
+S	java:S106f"9Replace this use of System.out or System.err by a logger.(ú½³Ðýÿÿÿÿ
+M	java:S106h"9Replace this use of System.out or System.err by a logger.(„„
+N	java:S106j"9Replace this use of System.out or System.err by a logger.(îÿã•
+M	java:S106l"9Replace this use of System.out or System.err by a logger.(¤‰ï
+N	java:S106n"9Replace this use of System.out or System.err by a logger.(Äœ÷Š
+S	java:S106u"9Replace this use of System.out or System.err by a logger.(÷£²‡øÿÿÿÿ
+N	java:S106v"9Replace this use of System.out or System.err by a logger.(ÁåùÁ
+N	java:S106w"9Replace this use of System.out or System.err by a logger.(îÀþç
+S	java:S106y"9Replace this use of System.out or System.err by a logger.(‚ü¡©þÿÿÿÿ
+S	java:S106z"9Replace this use of System.out or System.err by a logger.(ŒçÆžûÿÿÿÿ
+O	java:S106ƒ"9Replace this use of System.out or System.err by a logger.(âù§ä
+T	java:S106ˆ"9Replace this use of System.out or System.err by a logger.(ä©Ã™ÿÿÿÿÿ
+O	java:S106™"9Replace this use of System.out or System.err by a logger.(÷”‘ç
+T	java:S106›"9Replace this use of System.out or System.err by a logger.(°ï¶Çùÿÿÿÿ
+O	java:S106"9Replace this use of System.out or System.err by a logger.(‡‹¿Æ
+T
+java:S1128">Remove this unused import 'java.nio.charset.StandardCharsets'.(ï˜ÞÛ
+K
+java:S1128"0Remove this unused import 'java.util.HexFormat'.(‡Õæ×úÿÿÿÿ
+R
+java:S2629,"7Use the built-in formatting to construct this argument.(ºÕ¸Žÿÿÿÿÿ

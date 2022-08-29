@@ -1,5 +1,7 @@
 package org.litteraworlds.view.colors;
 
+import com.googlecode.lanterna.TextColor;
+
 public class Colors {
     private Colors(){}
 
@@ -57,5 +59,13 @@ public class Colors {
             e.printStackTrace();
         }
         return R;
+    }
+
+    public static TextColor getTextColor(String color){
+        //System.out.println("Color was: " + color);
+        color = color.replaceFirst("\\u001b\\[\\d{2};\\d;", "#");
+        color = color.replace('m', ' ');
+        //System.out.println("Color is: " + color);
+        return TextColor.Factory.fromString(color);
     }
 }

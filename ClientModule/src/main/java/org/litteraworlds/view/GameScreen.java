@@ -5,11 +5,13 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.swing.SwingTerminalFontConfiguration;
 import org.litteraworlds.objects.GameObject;
 import org.litteraworlds.view.colors.Colors;
+import org.litteraworlds.view.ui.Drawable;
 
 import java.awt.*;
 import java.io.File;
@@ -41,6 +43,23 @@ public class GameScreen {
     private static int linePointer = 0;
 
     private static ArrayList<LineBuffer> lineBuffers = new ArrayList<>();
+
+    public static TerminalSize getScreenSize(){
+        return screen.getTerminalSize().withRelativeRows(-1);
+    }
+
+    public static boolean isActive(){
+        return screen != null;
+    }
+
+    public static void drawCall(Drawable window){
+        window.draw();
+        try{
+            screen.refresh(Screen.RefreshType.AUTOMATIC);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static int init() {
         try {
@@ -84,6 +103,10 @@ public class GameScreen {
         return SUCCESS_CODE;
     }
 
+    public static TextGraphics getNewGraphics(){
+        return screen.newTextGraphics();
+    }
+
     public static void resetAndClearPrompt(){
         xPointer = START_X;
         screenPrompt.fill(' ');
@@ -92,14 +115,14 @@ public class GameScreen {
     }
 
     public static void putGameObjectName(GameObject gameObject){
-        putIntoScreenAndRefresh(gameObject.getColor(), gameObject.toString());
+        putIntoScreenAndRefresh(gameObject.getColor(), gameObject.toString(), 0);
     }
 
     public static void putString(MessageType messageType, String msg){
 
         String message = msg + Colors.R;
 
-        putIntoScreenAndRefresh(messageType.toString(), message);
+        putIntoScreenAndRefresh(messageType.toString(), message, 0);
     }
 
     public static void putEmptyString(){
@@ -111,17 +134,21 @@ public class GameScreen {
     }
 
     public static void putString(String color, String s){
-        putIntoScreenAndRefresh(color, s+Colors.R);
+        putIntoScreenAndRefresh(color, s+Colors.R, 0);
     }
 
-    private static void putIntoScreenAndRefresh(String color, String s){
+    public static void putString(String color, String s, int col){
+        putIntoScreenAndRefresh(color, s+Colors.R, col);
+    }
+
+    private static void putIntoScreenAndRefresh(String color, String s, int col){
         if(isTextLengthFit(s)) {
             //System.out.println(getTrimString(s));
             //Debug.toLog("BEFORE INSERT LINE|yPointer = "+yPointer+"|LINE =" + s);
-            screenText.putCSIStyledString(0, yPointer++, color+s);
+            screenText.putCSIStyledString(col, yPointer++, color+s);
             //Debug.toLog("AFTER INSERT LINE|yPointer = "+yPointer);
         } else {
-            putIntoScreenAndRefresh(color,getSplitString(color, s).toString());
+            putIntoScreenAndRefresh(color,getSplitString(color, s).toString(), col);
             return;
         }
         lineBuffers.get(linePointer).putLineIntoBuffer(color+s);
@@ -140,7 +167,7 @@ public class GameScreen {
             i++;
         } while (isTextLengthFit(sb.toString().concat(splitString[i])));
 
-        putIntoScreenAndRefresh(color,sb.toString());
+        putIntoScreenAndRefresh(color,sb.toString(), 0);
 
         sb = new StringBuilder();
 

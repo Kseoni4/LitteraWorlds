@@ -9,20 +9,44 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
+import java.util.HashMap;
 
+/**
+ * [SERVER-SIDE]
+ * Класс - обработчик игровых запросов. Выполняется в отдельном потоке при каждом создании новой игровой сессии.
+ * @author Николай Ксенофонтов
+ * @version 1.0
+ */
 public class PlayerInstanceHandler implements Runnable{
 
-    PlayerInstance playerInstance;
+    private PlayerInstance playerInstance;
 
-    MappingAnnotationHandler mappingAnnotationHandler;
+    private MappingAnnotationHandler mappingAnnotationHandler;
 
-    BufferedInputStream bIn;
+    private BufferedInputStream bIn;
+
+    private static HashMap<String, Method> instanceMethods = new HashMap<>();
+
+    /*
+     * При старте программы через рефлексию проходит по методам класса {@link PlayerInstance} и ищет аннотации {@link Mapping}
+     * Значение каждой проверяется на соответствие префексу и в случае совпадение метод вызывается с методами, либо без них.
+     */
+    static {
+        Class<?> playerInstanceClass = PlayerInstance.class;
+
+        for (Method method : playerInstanceClass.getDeclaredMethods()) {
+            if(method.isAnnotationPresent(Mapping.class)){
+                instanceMethods.put(method.getAnnotation(Mapping.class).value(), method);
+            }
+        }
+    }
 
     public PlayerInstanceHandler(PlayerInstance playerInstance){
         this.playerInstance = playerInstance;
         this.mappingAnnotationHandler = new MappingAnnotationHandler(playerInstance);
         this.bIn = new BufferedInputStream(playerInstance.getIn());
     }
+
     @Override
     public void run(){
         try {
@@ -44,6 +68,12 @@ public class PlayerInstanceHandler implements Runnable{
         }
     }
 
+    /**
+     * [SERVER-SIDE]
+     * Обработчик аннотаций для выходных запросов
+     * @author Николай Ксенофонтов
+     * @version 1.0
+     */
     private static class MappingAnnotationHandler {
 
         PlayerInstance contextInstance;
@@ -55,8 +85,6 @@ public class PlayerInstanceHandler implements Runnable{
         /**
          * Обработчик входных запросов.
          * Вызывает метод из текущего контекста, соответствующий входному префиксу
-         * Через рефлексию проходит по методам класса {@link PlayerInstance} и ищет аннотации {@link Mapping}
-         * Значение каждой проверяется на соответствие префексу и в случае совпадение метод вызывается с методами, либо без них.
          * <br>
          * Список заголовочных префиксов:
          * <ul>
@@ -75,34 +103,23 @@ public class PlayerInstanceHandler implements Runnable{
          *     <li>
          *         VLWD - валидировать хэш клиентского мира
          * </ul>
+         * @param requestHeader заголовочный префикс
+         * @param requestData передаваемые данные игрового клиента
+         * @author Николай Ксенофонтов
          */
         public void requestMapping(String requestHeader, Object requestData) {
             try {
-                Class<?> pist = PlayerInstance.class;
 
-                for (Method method : pist.getDeclaredMethods()) {
+                Method m = instanceMethods.get(requestHeader);
 
-                    Mapping mapping = method.getAnnotation(Mapping.class);
+                m.setAccessible(true);
 
-                    if (mapping != null && mapping.value().equals(requestHeader)) {
-
-                        if (method.getParameters().length > 0) {
-
-                            for (Parameter p : method.getParameters()) {
-
-                                Params params = p.getAnnotation(Params.class);
-
-                                if (params != null) {
-                                    method.setAccessible(true);
-                                    method.invoke(contextInstance, requestData);
-                                }
-                            }
-                        } else {
-                            method.setAccessible(true);
-                            method.invoke(contextInstance);
-                        }
-                    }
+                if(m.getParameters().length > 0){
+                    m.invoke(contextInstance, requestData);
+                } else {
+                    m.invoke(contextInstance);
                 }
+
             } catch (InvocationTargetException | IllegalAccessException e) {
                 e.printStackTrace();
             }

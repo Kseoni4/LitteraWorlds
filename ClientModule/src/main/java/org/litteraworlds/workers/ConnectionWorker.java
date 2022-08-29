@@ -17,6 +17,7 @@ public class ConnectionWorker implements Runnable {
 
     private OutputStream out = null;
 
+    private boolean online;
 
     public void sendToServer(PlayerDTO playerDTO) throws IOException {
         ObjectOutputStream outputStream = new ObjectOutputStream(out);
@@ -63,11 +64,13 @@ public class ConnectionWorker implements Runnable {
 
             Debug.toLog("Connection to server "+server+" is established");
 
+            online = server.isConnected();
+
             in = server.getInputStream();
 
             out = server.getOutputStream();
         } catch (IOException e){
-            e.printStackTrace();
+            online = false;
         }
     }
 
@@ -91,5 +94,9 @@ public class ConnectionWorker implements Runnable {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public boolean isOnline() {
+        return online;
     }
 }
